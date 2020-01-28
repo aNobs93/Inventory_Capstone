@@ -40,6 +40,7 @@ namespace Single_Capstone.Controllers
                 var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
                 var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
                 product.InventoryId = inventory.Id;
+                product.Profit = (product.PricePerUnitSelling - product.PricePerUnitPurchased);
                 db.Products.Add(product);
                 db.SaveChanges();
 

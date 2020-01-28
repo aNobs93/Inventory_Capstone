@@ -19,12 +19,14 @@ namespace Single_Capstone.Models
         [Display(Name = "Name of product")]
         public string ProductName { get; set; }
 
-        public double Quantity { get; set; }
+        public double Units { get; set; }
 
         [Display(Name ="Purchase Price Per Unit")]
         public double PricePerUnitPurchased { get; set; }
 
-        [Display(Name ="Selling Price Per Unit")]
+        [Display(Name = "Selling Price Per Unit")]
         public double PricePerUnitSelling { get; set; }
+
+        public double Profit { get; set; }
     }
 }

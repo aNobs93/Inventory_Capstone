@@ -16,6 +16,12 @@ namespace Single_Capstone.Models
         public int BusinessId { get; set; }
         public Business Business { get; set; }
 
+        [Display(Name ="Total Value")]
+        public double TotalInventoryWorth { get; set; }
+
+        [Display(Name ="Profit Margin")]
+        public double ProfitMargin { get; set; }
+
         //public List<MonthlyInventory> MonthlyInventories { get; set; }
         public List<Product> Products { get; set; }
     }
