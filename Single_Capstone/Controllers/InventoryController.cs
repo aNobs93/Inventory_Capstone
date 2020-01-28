@@ -2,6 +2,7 @@
 using Single_Capstone.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,6 +38,8 @@ namespace Single_Capstone.Controllers
             {
                 inventory.TotalInventoryWorth += (inventory.Products[i].PricePerUnitPurchased * inventory.Products[i].Units);
             }//This finds the Inventory worth purchased price * units and adds the value to the ongoing total
+            db.Entry(inventory).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void InventoryProfitMargin()
@@ -49,6 +52,8 @@ namespace Single_Capstone.Controllers
             {
                 inventory.ProfitMargin += (inventory.Products[i].Units * (inventory.Products[i].PricePerUnitSelling - inventory.Products[i].PricePerUnitPurchased));
             }//This finds the Inventory profit to be made based off units selling price - purchased rate * units
+            db.Entry(inventory).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         // GET: Inventory/Create
