@@ -23,6 +23,7 @@ namespace Single_Capstone.Models
         public double ProfitMargin { get; set; }
         public List<Product> Products { get; set; }
 
+        [Display(Name ="Date Taken")]
         public string GetDate { get; set; }
     }
 }
