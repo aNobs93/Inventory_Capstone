@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Single_Capstone.Models.Product>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Index";
 }
 
-<h2>Details</h2>
+<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -23,6 +23,15 @@
         <th>
             @Html.DisplayNameFor(model => model.PricePerUnitSelling)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProfitToBeMadePerUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalProductValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetDate)
+        </th>
         <th></th>
     </tr>
 
@@ -39,6 +48,15 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PricePerUnitSelling)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfitToBeMadePerUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalProductValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GetDate)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

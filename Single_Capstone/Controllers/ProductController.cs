@@ -14,7 +14,10 @@ namespace Single_Capstone.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            return View();
+            var userID = User.Identity.GetUserId();
+            var business = db.Businesses.Where(b => b.ApplicationId == userID).FirstOrDefault();
+            var products = db.Products.Where(p => p.BusinessId == business.Id).ToList();
+            return View(products);//Come here to see a list of the products you have/update product/or add new.
         }
 
         // GET: Product/Details/5
@@ -38,18 +41,31 @@ namespace Single_Capstone.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
-                var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
-                product.InventoryId = inventory.Id;
-                product.Profit = (product.PricePerUnitSelling - product.PricePerUnitPurchased);
-                db.Products.Add(product);
+                product.BusinessId = business.Id;
+                product.GetDate = DateTime.Now.ToShortDateString();//shows what day you got the product
+                var p = FindProductProfit(product);
+                var pd = FindProductInventoryTotal(p);
+                db.Products.Add(pd);
                 db.SaveChanges();
 
-                return RedirectToAction("Details", "Inventory");
+                return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
+        }
+
+        public Product FindProductProfit(Product product)
+        {
+            product.ProfitToBeMadePerUnit = (product.PricePerUnitSelling - product.PricePerUnitPurchased);
+            return product;//maybe look back here not sure what i was doing
+        }
+
+        public Product FindProductInventoryTotal(Product product)//and here
+        {
+            product.TotalProductValue = (product.Units * product.PricePerUnitPurchased);
+            return product;
         }
 
         // GET: Product/Edit/5

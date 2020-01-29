@@ -12,9 +12,7 @@ namespace Single_Capstone.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Inventory")]
-        public int InventoryId { get; set; }
-        public Inventory Inventory { get; set; }
+        public int BusinessId { get; set; }    
 
         [Display(Name = "Name of product")]
         public string ProductName { get; set; }
@@ -27,6 +25,13 @@ namespace Single_Capstone.Models
         [Display(Name = "Selling Price Per Unit")]
         public double PricePerUnitSelling { get; set; }
 
-        public double Profit { get; set; }
+        [Display(Name ="Profit Per Unit")]
+        public double ProfitToBeMadePerUnit { get; set; }
+
+        [Display(Name ="Total Value of Product")]
+        public double TotalProductValue { get; set; }
+
+        [Display(Name ="Updated On")]
+        public string GetDate { get; set; }
     }
 }

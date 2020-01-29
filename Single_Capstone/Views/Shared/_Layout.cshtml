@@ -22,19 +22,13 @@
             <div class="navbar-collapse collapse">
                 @if (User.IsInRole("Business"))
                 {
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Profile", "Index", "Business")</li>
-                        <li>@Html.ActionLink("In Details", "Details", "Inventory")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                }
-                @if (User.Identity == null)
-                {
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Profile", "Index", "Business")</li>
+                    <li>@Html.ActionLink("In Details", "Details", "Inventory")</li>
+                    <li>@Html.ActionLink("Add Product", "Create", "Product")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
                 }
                 @Html.Partial("_LoginPartial")
             </div>

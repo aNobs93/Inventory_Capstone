@@ -171,6 +171,7 @@
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\InventoryProductController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -178,15 +179,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202001281927472_newnew.cs" />
-    <Compile Include="Migrations\202001281927472_newnew.Designer.cs">
-      <DependentUpon>202001281927472_newnew.cs</DependentUpon>
+    <Compile Include="Migrations\202001291909081_newnew.cs" />
+    <Compile Include="Migrations\202001291909081_newnew.Designer.cs">
+      <DependentUpon>202001291909081_newnew.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Business.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Inventory.cs" />
+    <Compile Include="Models\InventoryProducts.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -252,11 +254,14 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Business\Index.cshtml" />
     <Content Include="Views\Business\Create.cshtml" />
-    <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Inventory\Details.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\InventoryProduct\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -272,8 +277,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001281927472_newnew.resx">
-      <DependentUpon>202001281927472_newnew.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001291909081_newnew.resx">
+      <DependentUpon>202001291909081_newnew.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

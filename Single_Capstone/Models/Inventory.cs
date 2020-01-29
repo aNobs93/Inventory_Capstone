@@ -21,8 +21,8 @@ namespace Single_Capstone.Models
 
         [Display(Name ="Profit Margin")]
         public double ProfitMargin { get; set; }
-
-        //public List<MonthlyInventory> MonthlyInventories { get; set; }
         public List<Product> Products { get; set; }
+
+        public string GetDate { get; set; }
     }
 }

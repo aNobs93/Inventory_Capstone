@@ -91,6 +91,9 @@ namespace Single_Capstone.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         BusinessId = c.Int(nullable: false),
+                        TotalInventoryWorth = c.Double(nullable: false),
+                        ProfitMargin = c.Double(nullable: false),
+                        GetDate = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Businesses", t => t.BusinessId, cascadeDelete: true)
@@ -101,15 +104,40 @@ namespace Single_Capstone.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        InventoryId = c.Int(nullable: false),
+                        BusinessId = c.Int(nullable: false),
                         ProductName = c.String(),
-                        Quantity = c.Double(nullable: false),
+                        Units = c.Double(nullable: false),
                         PricePerUnitPurchased = c.Double(nullable: false),
                         PricePerUnitSelling = c.Double(nullable: false),
+                        ProfitToBeMadePerUnit = c.Double(nullable: false),
+                        TotalProductValue = c.Double(nullable: false),
+                        GetDate = c.String(),
+                        Inventory_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Inventories", t => t.Inventory_Id)
+                .Index(t => t.Inventory_Id);
+            
+            CreateTable(
+                "dbo.InventoryProducts",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        InventoryId = c.Int(nullable: false),
+                        ProductId = c.Int(nullable: false),
+                        Units = c.Double(nullable: false),
+                        GetDate = c.String(),
+                        ProductName = c.String(),
+                        TotalValueOfProducts = c.Double(nullable: false),
+                        PricePerUnitPurchased = c.Double(nullable: false),
+                        PricePerUnitSelling = c.Double(nullable: false),
+                        ProfitToBeMadePerUnit = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Inventories", t => t.InventoryId, cascadeDelete: true)
-                .Index(t => t.InventoryId);
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.InventoryId)
+                .Index(t => t.ProductId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -126,14 +154,18 @@ namespace Single_Capstone.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Products", "InventoryId", "dbo.Inventories");
+            DropForeignKey("dbo.InventoryProducts", "ProductId", "dbo.Products");
+            DropForeignKey("dbo.InventoryProducts", "InventoryId", "dbo.Inventories");
+            DropForeignKey("dbo.Products", "Inventory_Id", "dbo.Inventories");
             DropForeignKey("dbo.Inventories", "BusinessId", "dbo.Businesses");
             DropForeignKey("dbo.Businesses", "ApplicationId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Products", new[] { "InventoryId" });
+            DropIndex("dbo.InventoryProducts", new[] { "ProductId" });
+            DropIndex("dbo.InventoryProducts", new[] { "InventoryId" });
+            DropIndex("dbo.Products", new[] { "Inventory_Id" });
             DropIndex("dbo.Inventories", new[] { "BusinessId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -142,6 +174,7 @@ namespace Single_Capstone.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Businesses", new[] { "ApplicationId" });
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.InventoryProducts");
             DropTable("dbo.Products");
             DropTable("dbo.Inventories");
             DropTable("dbo.AspNetUserRoles");

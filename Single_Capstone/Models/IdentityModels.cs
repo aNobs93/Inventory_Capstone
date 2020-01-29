@@ -23,6 +23,8 @@ namespace Single_Capstone.Models
         public DbSet<Business> Businesses { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<InventoryProducts> InventoryProducts { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

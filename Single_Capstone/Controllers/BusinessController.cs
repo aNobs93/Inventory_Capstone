@@ -18,7 +18,7 @@ namespace Single_Capstone.Controllers
         {
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
-            return View(business);
+            return View(business); //change this later it will be the home page
         }
 
         // GET: Business/Details/5
@@ -31,7 +31,7 @@ namespace Single_Capstone.Controllers
         public ActionResult Create()
         {
             Business business = new Business();
-            return View(business);
+            return View(business); //create new business
         }
 
         // POST: Business/Create
@@ -44,7 +44,7 @@ namespace Single_Capstone.Controllers
                 business.ApplicationId = userId;
                 db.Businesses.Add(business);
                 db.SaveChanges();
-                return RedirectToAction("Create", "Inventory");
+                return RedirectToAction("Index"); //return back to index
             }
             catch
             {
