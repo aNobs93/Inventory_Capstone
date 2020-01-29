@@ -34,6 +34,12 @@ namespace Single_Capstone.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult SelectedInventoryDetails(int id)
+        {
+            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
+            return View(inventoryProducts);
+        }
+
         // GET: Inventory/Details/5
         public ActionResult Details()
         {
