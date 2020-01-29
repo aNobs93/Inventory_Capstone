@@ -34,7 +34,7 @@ namespace Single_Capstone.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult SelectedInventoryDetails(int id)
+        public ActionResult SelectedInventoryDetails(int id)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
         {
             var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
             return View(inventoryProducts);
@@ -84,8 +84,8 @@ namespace Single_Capstone.Controllers
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
             var checkInventory = db.Inventories.Where(c => c.BusinessId == business.Id).FirstOrDefault();
-            inventory.BusinessId = business.Id;
-            inventory.GetDate = DateTime.Now.ToShortDateString();
+            inventory.BusinessId = business.Id;//business id is set to inventory FK
+            inventory.GetDate = DateTime.Now.ToShortDateString();//setting date of inventory
             if (checkInventory == null)
             {
                 inventory.Products = db.Products.Where(p => p.BusinessId == business.Id).ToList();
@@ -93,10 +93,9 @@ namespace Single_Capstone.Controllers
                 db.SaveChanges();
                return RedirectToAction("InitalInventoryCreation", "InventoryProduct", inventory);
             }
-            //inventory.Products = db.Products.Where(p => p.InventoryId )
-            //db.Inventories.Add(inventory);
-            //db.SaveChanges();
-            return RedirectToAction("Index");//when business creates inventory it means they are going to take inventory
+            db.Inventories.Add(inventory);
+            db.SaveChanges();
+            return RedirectToAction("Create", "InventoryProduct", inventory);//inventory is created then sent to Inventory product create
         }
 
        [HttpPost]

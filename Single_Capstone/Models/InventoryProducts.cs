@@ -38,5 +38,7 @@ namespace Single_Capstone.Models
 
         [Display(Name = "Profit Per Unit")]
         public double ProfitToBeMadePerUnit { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }

@@ -47,9 +47,12 @@ namespace Single_Capstone.Controllers
         }
 
         // GET: InventoryProduct/Create
-        public ActionResult Create(Inventory inventory)
+        public ActionResult Create(Inventory inventory)//after an inventory is created it is sent here to do inventory on products
         {
             InventoryProducts inventoryProducts = new InventoryProducts();
+            inventoryProducts.InventoryId = inventory.Id;
+            var business = db.Businesses.Where(b => b.Id == inventory.BusinessId).FirstOrDefault();
+            inventoryProducts.Products = db.Products.Where(ip => ip.BusinessId == business.Id).ToList();
             return View(inventoryProducts);
         }
 
