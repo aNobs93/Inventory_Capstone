@@ -37,14 +37,14 @@ namespace Single_Capstone.Controllers
         // POST: Business/Create
         [HttpPost]
         public ActionResult Create(Business business)
-        {
+           {
             try
             {
                 var userId = User.Identity.GetUserId();
                 business.ApplicationId = userId;
                 db.Businesses.Add(business);
                 db.SaveChanges();
-                return RedirectToAction("Index"); //return back to index
+                return RedirectToAction("Create", "Inventory"); //return back to index
             }
             catch
             {

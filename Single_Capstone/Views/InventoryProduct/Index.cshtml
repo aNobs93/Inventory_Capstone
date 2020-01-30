@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Single_Capstone.Models.Product>
+﻿@model IEnumerable<Single_Capstone.Models.InventoryProducts>
 
 @{
     ViewBag.Title = "Index";
@@ -18,19 +18,13 @@
             @Html.DisplayNameFor(model => model.Units)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PricePerUnitPurchased)
+            @Html.DisplayNameFor(model => model.GetDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PricePerUnitSelling)
+            @Html.DisplayNameFor(model => model.TotalValueOfProducts)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProfitToBeMadePerUnit)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalProductValue)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GetDate)
         </th>
         <th></th>
     </tr>
@@ -44,19 +38,13 @@
             @Html.DisplayFor(modelItem => item.Units)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PricePerUnitPurchased)
+            @Html.DisplayFor(modelItem => item.GetDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PricePerUnitSelling)
+            @Html.DisplayFor(modelItem => item.TotalValueOfProducts)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ProfitToBeMadePerUnit)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalProductValue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GetDate)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -20,6 +20,5 @@ namespace Single_Capstone.Models
 
         [Display(Name = "Selling Price Per Unit")]
         public double PricePerUnitSelling { get; set; }
-
     }
 }

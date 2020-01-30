@@ -24,7 +24,7 @@ namespace Single_Capstone.Controllers
         }
 
         // GET: Product/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             Product product = new Product();
             return View(product);
@@ -32,16 +32,19 @@ namespace Single_Capstone.Controllers
 
         // POST: Product/Create
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Product product, int id)
         {
             try
             {
-                var userId = User.Identity.GetUserId();
-                var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+                ProductViewModel productView = new ProductViewModel();
                 db.Products.Add(product);
                 db.SaveChanges();
+                productView.ProductId = product.Id;
+                productView.InventoryId = id;
+                productView.ProductName = product.ProductName;
+                
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", "InventoryProduct", productView);
             }
             catch
             {

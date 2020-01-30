@@ -21,24 +21,24 @@ namespace Single_Capstone.Controllers
             return View(inventory);
         }
 
-        public ActionResult CalcInventoryValue(Inventory inventory)
-        {
-            var product = db.InventoryProducts.Where(p => p.InventoryId == inventory.Id).ToList();
-            for(int i = 0; i < product.Count; i++)
-            {
-                inventory.TotalInventoryWorth += product[i].TotalValueOfProducts;
-                inventory.ProfitMargin += (product[i].ProfitToBeMadePerUnit * product[i].Units);
-                db.Entry(inventory).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            return RedirectToAction("Index");
-        }
+        //public ActionResult CalcInventoryValue(Inventory inventory)
+        //{
+        //    var product = db.InventoryProducts.Where(p => p.InventoryId == inventory.Id).ToList();
+        //    for(int i = 0; i < product.Count; i++)
+        //    {
+        //        inventory.TotalInventoryWorth += product[i].TotalValueOfProducts;
+        //        inventory.ProfitMargin += (product[i].ProfitToBeMadePerUnit * product[i].Units);
+        //        db.Entry(inventory).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
-        public ActionResult SelectedInventoryDetails(int id)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
-        {
-            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
-            return View(inventoryProducts);
-        }
+        //public ActionResult SelectedInventoryDetails(int id)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
+        //{
+        //    var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
+        //    return View(inventoryProducts);
+        //}
 
         // GET: Inventory/Details/5
         public ActionResult Details()
@@ -49,33 +49,33 @@ namespace Single_Capstone.Controllers
             return View();
         }
 
-        public void InventoryWorth()
-        {
-            var userId = User.Identity.GetUserId();
-            var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
-            var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
-            //inventory.Products = db.Products.Where(p => p.InventoryId == inventory.Id).ToList();
-            for (int i = 0; i < inventory.Products.Count; i++)
-            {
-                //inventory.TotalInventoryWorth += (inventory.Products[i].PricePerUnitPurchased * inventory.Products[i].Units);
-            }//This finds the Inventory worth purchased price * units and adds the value to the ongoing total
-            db.Entry(inventory).State = EntityState.Modified;
-            db.SaveChanges();
-        }
+        //public void InventoryWorth()
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+        //    var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
+        //    //inventory.Products = db.Products.Where(p => p.InventoryId == inventory.Id).ToList();
+        //    for (int i = 0; i < inventory.Products.Count; i++)
+        //    {
+        //        //inventory.TotalInventoryWorth += (inventory.Products[i].PricePerUnitPurchased * inventory.Products[i].Units);
+        //    }//This finds the Inventory worth purchased price * units and adds the value to the ongoing total
+        //    db.Entry(inventory).State = EntityState.Modified;
+        //    db.SaveChanges();
+        //}
 
-        public void InventoryProfitMargin()
-        {
-            var userId = User.Identity.GetUserId();
-            var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
-            var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
-            //inventory.Products = db.Products.Where(p => p.InventoryId == inventory.Id).ToList();
-            for (int i = 0; i < inventory.Products.Count; i++)
-            {
-                //inventory.ProfitMargin += (inventory.Products[i].Units * (inventory.Products[i].PricePerUnitSelling - inventory.Products[i].PricePerUnitPurchased));
-            }//This finds the Inventory profit to be made based off units selling price - purchased rate * units
-            db.Entry(inventory).State = EntityState.Modified;
-            db.SaveChanges();
-        }
+        //public void InventoryProfitMargin()
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+        //    var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
+        //    //inventory.Products = db.Products.Where(p => p.InventoryId == inventory.Id).ToList();
+        //    for (int i = 0; i < inventory.Products.Count; i++)
+        //    {
+        //        //inventory.ProfitMargin += (inventory.Products[i].Units * (inventory.Products[i].PricePerUnitSelling - inventory.Products[i].PricePerUnitPurchased));
+        //    }//This finds the Inventory profit to be made based off units selling price - purchased rate * units
+        //    db.Entry(inventory).State = EntityState.Modified;
+        //    db.SaveChanges();
+        //}
 
         // GET: Inventory/Create
         public ActionResult Create()
@@ -83,19 +83,11 @@ namespace Single_Capstone.Controllers
             Inventory inventory = new Inventory();
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
-            var checkInventory = db.Inventories.Where(c => c.BusinessId == business.Id).FirstOrDefault();
-            inventory.BusinessId = business.Id;//business id is set to inventory FK
-            inventory.GetDate = DateTime.Now.ToShortDateString();//setting date of inventory
-            if (checkInventory == null)
-            {
-                //inventory.Products = db.Products.Where(p => p.BusinessId == business.Id).ToList();
-                db.Inventories.Add(inventory);
-                db.SaveChanges();
-               return RedirectToAction("InitalInventoryCreation", "InventoryProduct", inventory);
-            }
+            inventory.BusinessId = business.Id;
+            inventory.GetDate = DateTime.Today.ToString();
             db.Inventories.Add(inventory);
             db.SaveChanges();
-            return RedirectToAction("Create", "InventoryProduct", inventory);//inventory is created then sent to Inventory product create
+            return RedirectToAction("Index");
         }
 
        [HttpPost]

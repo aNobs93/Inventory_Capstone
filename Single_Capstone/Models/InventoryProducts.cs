@@ -20,6 +20,9 @@ namespace Single_Capstone.Models
         public int ProductId { get; set; }
         public Product Product { get; set; }
 
+        [Display(Name ="Product")]
+        public string ProductName { get; set; }
+
         public double Units { get; set; }
 
         public string GetDate { get; set; }
