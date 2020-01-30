@@ -24,17 +24,9 @@ namespace Single_Capstone.Models
 
         public string GetDate { get; set; }
 
-        [Display(Name ="Product")]
-        public string ProductName { get; set; }
-
         [Display(Name ="Total Value of Products")]
         public double TotalValueOfProducts { get; set; }
 
-        [Display(Name = "Purchase Price Per Unit")]
-        public double PricePerUnitPurchased { get; set; }
-
-        [Display(Name = "Selling Price Per Unit")]
-        public double PricePerUnitSelling { get; set; }
 
         [Display(Name = "Profit Per Unit")]
         public double ProfitToBeMadePerUnit { get; set; }

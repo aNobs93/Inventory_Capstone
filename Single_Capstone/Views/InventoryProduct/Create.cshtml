@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Single_Capstone.Models.InventoryProducts>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InventoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Units)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalValueOfProducts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProfitToBeMadePerUnit)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InventoryId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Units)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GetDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalValueOfProducts)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfitToBeMadePerUnit)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "TakingInventoryEdit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
