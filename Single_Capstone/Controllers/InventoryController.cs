@@ -34,11 +34,11 @@ namespace Single_Capstone.Controllers
         //    return RedirectToAction("Index");
         //}
 
-        //public ActionResult SelectedInventoryDetails(int id)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
-        //{
-        //    var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
-        //    return View(inventoryProducts);
-        //}
+        public ActionResult SelectedInventoryDetails(int id)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
+        {
+            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
+            return View(inventoryProducts);
+        }
 
         // GET: Inventory/Details/5
         public ActionResult Details()

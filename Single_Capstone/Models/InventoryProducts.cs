@@ -25,6 +25,7 @@ namespace Single_Capstone.Models
 
         public double Units { get; set; }
 
+        [Display(Name ="Date Updated")]
         public string GetDate { get; set; }
 
         [Display(Name ="Total Value of Products")]

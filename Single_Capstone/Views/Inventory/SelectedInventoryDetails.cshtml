@@ -24,12 +24,6 @@
             @Html.DisplayNameFor(model => model.TotalValueOfProducts)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PricePerUnitPurchased)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PricePerUnitSelling)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.ProfitToBeMadePerUnit)
         </th>
         <th></th>
@@ -47,15 +41,11 @@
             @Html.DisplayFor(modelItem => item.ProductName)
         </td>
         <td>
+            <span>$</span>
             @Html.DisplayFor(modelItem => item.TotalValueOfProducts)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PricePerUnitPurchased)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PricePerUnitSelling)
-        </td>
-        <td>
+            <span>$</span>
             @Html.DisplayFor(modelItem => item.ProfitToBeMadePerUnit)
         </td>
         <td>

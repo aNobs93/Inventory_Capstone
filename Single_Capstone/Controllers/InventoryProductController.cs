@@ -26,7 +26,8 @@ namespace Single_Capstone.Controllers
         // GET: InventoryProduct/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var products = db.InventoryProducts.Where(p => p.InventoryId == id).ToList();
+            return View(products);
         }
 
         //public ActionResult InitalInventoryCreation()
@@ -100,7 +101,7 @@ namespace Single_Capstone.Controllers
                 db.SaveChanges();
                 var inventory = db.Inventories.Where(i => i.Id == productView.InventoryId).FirstOrDefault();
                 inventory.TotalInventoryWorth += inventoryProducts.TotalValueOfProducts;
-                inventory.ProfitMargin = (inventoryProducts.ProfitToBeMadePerUnit * inventoryProducts.Units);
+                inventory.ProfitMargin += (inventoryProducts.ProfitToBeMadePerUnit * inventoryProducts.Units);
                 db.Entry(inventory).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Inventory");
