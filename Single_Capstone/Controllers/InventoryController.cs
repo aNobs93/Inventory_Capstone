@@ -21,18 +21,15 @@ namespace Single_Capstone.Controllers
             return View(inventory);
         }
 
-        //public ActionResult CalcInventoryValue(Inventory inventory)
-        //{
-        //    var product = db.InventoryProducts.Where(p => p.InventoryId == inventory.Id).ToList();
-        //    for(int i = 0; i < product.Count; i++)
-        //    {
-        //        inventory.TotalInventoryWorth += product[i].TotalValueOfProducts;
-        //        inventory.ProfitMargin += (product[i].ProfitToBeMadePerUnit * product[i].Units);
-        //        db.Entry(inventory).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("Index");
-        //}
+        public ActionResult CalcInventoryValue(InventoryProducts inventoryProducts)
+        {
+            var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
+                inventory.TotalInventoryWorth += inventoryProducts.TotalValueOfProducts;
+                inventory.ProfitMargin += (inventoryProducts.ProfitToBeMadePerUnit * inventoryProducts.Units);
+                db.Entry(inventory).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+        }
 
         public ActionResult SelectedInventoryDetails(int id)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
         {
