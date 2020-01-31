@@ -91,16 +91,16 @@ namespace Single_Capstone.Controllers
 
         public InventoryProducts FindTotalValueOfProducts(InventoryProducts inventoryProducts)//this works for new product thats added
         {
-            var iP = db.InventoryProducts.Where(p => p.Id == inventoryProducts.Id).FirstOrDefault();
-            var product = db.Products.Where(p => p.Id == iP.ProductId).FirstOrDefault();
+            //var iP = db.InventoryProducts.Where(p => p.Id == inventoryProducts.Id).FirstOrDefault();
+            var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();
             inventoryProducts.TotalValueOfProducts = (inventoryProducts.Units * product.PricePerUnit);
             return inventoryProducts;
         }
 
         public InventoryProducts FindProfitPerUnit(InventoryProducts inventoryProducts)//this works for new product thats added
         {
-            var iP = db.InventoryProducts.Where(p => p.Id == inventoryProducts.Id).FirstOrDefault();
-            var product = db.Products.Where(p => p.Id == iP.ProductId).FirstOrDefault();
+            //var iP = db.InventoryProducts.Where(p => p.Id == inventoryProducts.Id).FirstOrDefault();
+            var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();
             inventoryProducts.ProfitToBeMadePerUnit = (product.PricePerUnitSelling - product.PricePerUnit);
             return inventoryProducts;
         }
