@@ -15,7 +15,7 @@ namespace Single_Capstone.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: InventoryProduct
-        public ActionResult Index()
+        public ActionResult Index()//Not sure what im doing here yet--------------------
         {
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
@@ -25,15 +25,19 @@ namespace Single_Capstone.Controllers
         }
 
         // GET: InventoryProduct/Details/5
-        public ActionResult Details(int id)
-        {
-            var products = db.InventoryProducts.Where(p => p.InventoryId == id).ToList();
+        public ActionResult Details()
+        {//This allows the user to come and view all of the products and units tied to there inventories
+            var userId = User.Identity.GetUserId();
+            var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+            var findMax = db.Inventories.Where(f => f.BusinessId == business.Id).ToList();
+            int max = findMax.Max(m => m.Id);
+            var products = db.InventoryProducts.Where(p => p.InventoryId == max).ToList();
             return View(products);
         }
 
 
         public void LoopToAssignValuesToProductInventory(InventoryProducts inventoryProducts, Inventory inventory)//after create sent here to a ssign values
-        {
+        {//This assigns values to all of the product when the new inventoryProducts is instantiated
             inventoryProducts.InventoryId = inventory.Id;
             var products = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.LastInventoryId).ToList();
             for (int i = 0; i < products.Count; i++)
@@ -45,6 +49,8 @@ namespace Single_Capstone.Controllers
                 inventoryProducts.ProfitToBeMadePerUnit = 0;
                 inventoryProducts.Units = 0;
                 inventoryProducts.TotalValueOfProducts = 0;
+                inventoryProducts.TimesOrdered = 0;
+                inventoryProducts.AmountOrdered = 0;
                 db.InventoryProducts.Add(inventoryProducts);
                 db.SaveChanges();
             }
@@ -128,16 +134,9 @@ namespace Single_Capstone.Controllers
             {
                 var iP = db.InventoryProducts.Where(p => p.Id == inventoryProducts.Id).FirstOrDefault();
                 iP.Units = inventoryProducts.Units;
-                //inventoryProducts.ProductId = product.ProductId;
-                //inventoryProducts.ProductName = product.ProductName;
-                //inventoryProducts.InventoryId = product.InventoryId;
                 iP = FindTotalValueOfProducts(iP);
                 iP = FindProfitPerUnit(iP);
                 iP.GetDate = DateTime.Now.ToShortDateString();
-                //db.Set<InventoryProducts>().AddOrUpdate(inventoryProducts);
-
-/*                db.Set<InventoryProducts>().Attach(inventoryProducts); *///attach
-
                 db.Entry(iP).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("CalcInventoryValue", "Inventory", iP);
@@ -145,6 +144,36 @@ namespace Single_Capstone.Controllers
             return RedirectToAction("Index", "Inventory");
         }
 
+        public ActionResult AddInventory(int id)//Comes here to add unit to a product
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var product = db.InventoryProducts.Where(p => p.Id == id).FirstOrDefault();
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+        /// /////////////////////////////////////////////////////////////////////////////
+
+        [HttpPost]
+        public ActionResult AddInventory(int id, InventoryProducts inventoryProducts)
+        {
+            if (ModelState.IsValid)
+            {
+                var ip = db.InventoryProducts.Where(p => p.Id == id).FirstOrDefault();
+                ip.TimesOrdered++;
+                ip.AmountOrdered += inventoryProducts.Units;
+                ip.Units = (ip.Units + inventoryProducts.Units);
+
+                return RedirectToAction("CalcInventoryValue", "Inventory");
+            }
+            return RedirectToAction("Index", "Inventory");
+        }
+        /// /////////////////////////////////////////////////////////////////////////////
         // GET: InventoryProduct/Delete/5
         public ActionResult Delete(int id)
         {

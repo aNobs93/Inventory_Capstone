@@ -263,6 +263,8 @@
     <Content Include="Views\InventoryProduct\Create.cshtml" />
     <Content Include="Views\InventoryProduct\Index.cshtml" />
     <Content Include="Views\InventoryProduct\Edit.cshtml" />
+    <Content Include="Views\InventoryProduct\Details.cshtml" />
+    <Content Include="Views\InventoryProduct\AddInventory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

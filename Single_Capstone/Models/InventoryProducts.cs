@@ -36,5 +36,9 @@ namespace Single_Capstone.Models
         public double ProfitToBeMadePerUnit { get; set; }
 
         public List<Product> Products { get; set; }
+
+        public int TimesOrdered { get; set; }
+
+        public double AmountOrdered { get; set; }
     }
 }

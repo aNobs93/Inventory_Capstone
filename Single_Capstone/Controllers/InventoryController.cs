@@ -48,34 +48,6 @@ namespace Single_Capstone.Controllers
             return View();
         }
 
-        //public void InventoryWorth()
-        //{
-        //    var userId = User.Identity.GetUserId();
-        //    var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
-        //    var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
-        //    //inventory.Products = db.Products.Where(p => p.InventoryId == inventory.Id).ToList();
-        //    for (int i = 0; i < inventory.Products.Count; i++)
-        //    {
-        //        //inventory.TotalInventoryWorth += (inventory.Products[i].PricePerUnitPurchased * inventory.Products[i].Units);
-        //    }//This finds the Inventory worth purchased price * units and adds the value to the ongoing total
-        //    db.Entry(inventory).State = EntityState.Modified;
-        //    db.SaveChanges();
-        //}
-
-        //public void InventoryProfitMargin()
-        //{
-        //    var userId = User.Identity.GetUserId();
-        //    var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
-        //    var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).FirstOrDefault();
-        //    //inventory.Products = db.Products.Where(p => p.InventoryId == inventory.Id).ToList();
-        //    for (int i = 0; i < inventory.Products.Count; i++)
-        //    {
-        //        //inventory.ProfitMargin += (inventory.Products[i].Units * (inventory.Products[i].PricePerUnitSelling - inventory.Products[i].PricePerUnitPurchased));
-        //    }//This finds the Inventory profit to be made based off units selling price - purchased rate * units
-        //    db.Entry(inventory).State = EntityState.Modified;
-        //    db.SaveChanges();
-        //}
-
         // GET: Inventory/Create
         public ActionResult Create()
         {
