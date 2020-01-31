@@ -57,38 +57,43 @@ namespace Single_Capstone.Controllers
         //    return RedirectToAction("CalcInventoryValue", "Inventory", inventory);//Redirect to calc inventory value n profit estimate
         //}
 
-        //public InventoryProducts LoopToAssignValuesToProductInventory(InventoryProducts inventoryProducts, Inventory inventory)//after create sent here to a ssign values
-        //{
-        //    inventoryProducts.InventoryId = inventory.Id;
-        //    var business = db.Businesses.Where(b => b.Id == inventory.BusinessId).FirstOrDefault();
-        //    inventory.Products = db.Products.Where(ip => ip.BusinessId == business.Id).ToList();
-        //    for (int i = 0; i < inventory.Products.Count; i++)
-        //    {
-        //        inventoryProducts.InventoryId = inventory.Id;
-        //        inventoryProducts.ProductId = inventory.Products[i].Id;
-        //        inventoryProducts.Units = inventory.Products[i].Units;
-        //        inventoryProducts.GetDate = DateTime.Now.ToShortDateString();
-        //        inventoryProducts.ProductName = inventory.Products[i].ProductName;
-        //        inventoryProducts.TotalValueOfProducts = inventory.Products[i].TotalProductValue;
-        //        inventoryProducts.ProfitToBeMadePerUnit = inventory.Products[i].ProfitToBeMadePerUnit;
-        //        inventoryProducts.PricePerUnitPurchased = inventory.Products[i].PricePerUnitPurchased;
-        //        inventoryProducts.PricePerUnitSelling = inventory.Products[i].PricePerUnitSelling;
-        //        db.InventoryProducts.Add(inventoryProducts);
-        //        db.SaveChanges();
-        //    }
-        //    return inventoryProducts;//returns back to create to go to the view
-        //}
+        public void LoopToAssignValuesToProductInventory(InventoryProducts inventoryProducts, Inventory inventory)//after create sent here to a ssign values
+        {
+            inventoryProducts.InventoryId = inventory.Id;
+            //var business = db.Businesses.Where(b => b.Id == inventory.BusinessId).FirstOrDefault();
+            //var findMax = db.Inventories.Where(f => f.BusinessId == business.Id).ToList();           
+            //int max = findMax.Max(m => m.Id);
+            var products = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.LastInventoryId).ToList();
+            for (int i = 0; i < products.Count; i++)
+            {
+                inventoryProducts.InventoryId = inventory.Id;
+                inventoryProducts.ProductId = products[i].ProductId;
+                inventoryProducts.GetDate = DateTime.Now.ToShortDateString();
+                inventoryProducts.ProductName = products[i].ProductName;
+                inventoryProducts.ProfitToBeMadePerUnit = 0;
+                inventoryProducts.Units = 0;
+                inventoryProducts.TotalValueOfProducts = 0;
+                db.InventoryProducts.Add(inventoryProducts);
+                db.SaveChanges();
+            }
+            //return RedirectToAction("Index", "Inventory");
+        }
 
         // GET: InventoryProduct/Create
-        public ActionResult Create(ProductViewModel productView)
+        public ActionResult Create(ProductViewModel productView, Inventory inventory)//For Initial Creation Only
         {
             InventoryProducts inventoryProducts = new InventoryProducts();
+            if(productView.ProductName == null)
+            {
+                 LoopToAssignValuesToProductInventory(inventoryProducts, inventory);
+                 return RedirectToAction("Index", "Inventory");
+            }
             return View(inventoryProducts);
         }
 
         // POST: InventoryProduct/Create
         [HttpPost]
-        public ActionResult Create(InventoryProducts inventoryProducts, ProductViewModel productView)
+        public ActionResult Create(InventoryProducts inventoryProducts, ProductViewModel productView)//For Initial Creation Only
         {
             try
             {
@@ -112,14 +117,14 @@ namespace Single_Capstone.Controllers
             }
         }
 
-        public InventoryProducts FindTotalValueOfProducts(InventoryProducts inventoryProducts)
+        public InventoryProducts FindTotalValueOfProducts(InventoryProducts inventoryProducts)//this works for new product thats added
         {
             var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();
             inventoryProducts.TotalValueOfProducts = (inventoryProducts.Units * product.PricePerUnit);
             return inventoryProducts;
         }
 
-        public InventoryProducts FindProfitPerUnit(InventoryProducts inventoryProducts)
+        public InventoryProducts FindProfitPerUnit(InventoryProducts inventoryProducts)//this works for new product thats added
         {
             var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();
             inventoryProducts.ProfitToBeMadePerUnit = (product.PricePerUnitSelling - product.PricePerUnit);
@@ -163,7 +168,8 @@ namespace Single_Capstone.Controllers
         // GET: InventoryProduct/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var product = db.InventoryProducts.Where(p => p.Id == id).FirstOrDefault();
+            return View(product);
         }
 
         // POST: InventoryProduct/Edit/5

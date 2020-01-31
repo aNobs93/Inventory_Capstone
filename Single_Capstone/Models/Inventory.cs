@@ -25,5 +25,7 @@ namespace Single_Capstone.Models
 
         [Display(Name ="Date Taken")]
         public string GetDate { get; set; }
+
+        public int LastInventoryId { get; set; }
     }
 }

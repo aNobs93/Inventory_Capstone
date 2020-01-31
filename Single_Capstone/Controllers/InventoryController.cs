@@ -80,14 +80,23 @@ namespace Single_Capstone.Controllers
         // GET: Inventory/Create
         public ActionResult Create()
         {
-            Inventory inventory = new Inventory();
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+            var findMax = db.Inventories.Where(f => f.BusinessId == business.Id).ToList();
+            int max = findMax.Max(m => m.Id);
+            Inventory inventory = new Inventory();
+            var key = db.Inventories.Where(k => k.BusinessId == business.Id).FirstOrDefault();
             inventory.BusinessId = business.Id;
-            inventory.GetDate = DateTime.Today.ToString();
+            inventory.GetDate = DateTime.Now.ToShortDateString();
+            inventory.LastInventoryId = max;
             db.Inventories.Add(inventory);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            if(key == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Create", "InventoryProduct", inventory);
+            
         }
 
        [HttpPost]

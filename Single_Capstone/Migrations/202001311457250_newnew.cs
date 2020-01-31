@@ -7,12 +7,12 @@ namespace Single_Capstone.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.InventoryProducts", "ProductName", c => c.String());
+            AddColumn("dbo.Inventories", "LastInventoryId", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.InventoryProducts", "ProductName");
+            DropColumn("dbo.Inventories", "LastInventoryId");
         }
     }
 }
