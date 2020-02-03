@@ -58,7 +58,7 @@ namespace Single_Capstone.Controllers
         }
 
         // GET: InventoryProduct/Create
-        public ActionResult Create(ProductViewModel productView, Inventory inventory)//For Initial Creation Only
+        public ActionResult Create(ProductViewModel productView, Inventory inventory)//comes here to create a new inventory
         {
             InventoryProducts inventoryProducts = new InventoryProducts();
             if(productView.ProductName == null)
@@ -66,7 +66,7 @@ namespace Single_Capstone.Controllers
                  LoopToAssignValuesToProductInventory(inventoryProducts, inventory);
                  return RedirectToAction("Index", "Inventory");
             }
-            return View(inventoryProducts);
+            return View(inventoryProducts);//For Initial Creation Only
         }
 
         // POST: InventoryProduct/Create
@@ -80,6 +80,7 @@ namespace Single_Capstone.Controllers
                 inventoryProducts.GetDate = DateTime.Now.ToShortDateString();
                 inventoryProducts = FindTotalValueOfProducts(inventoryProducts);
                 inventoryProducts = FindProfitPerUnit(inventoryProducts);
+                inventoryProducts = FindGMROI(inventoryProducts);
                 db.InventoryProducts.Add(inventoryProducts);
                 db.SaveChanges();
                 var inventory = db.Inventories.Where(i => i.Id == productView.InventoryId).FirstOrDefault();
@@ -111,6 +112,26 @@ namespace Single_Capstone.Controllers
             return inventoryProducts;
         }
 
+        public InventoryProducts FindGMROI(InventoryProducts inventoryProducts)
+        {
+            var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();            
+           double totalProfit = (product.PricePerUnitSelling * inventoryProducts.Units);
+            inventoryProducts.GMROI = Math.Round(totalProfit / inventoryProducts.TotalValueOfProducts, 2);
+            return inventoryProducts;
+        }
+
+        public InventoryProducts FindParLevel(InventoryProducts inventoryProducts)
+        {
+            var inventory = db.Inventories.Find(inventoryProducts.InventoryId);
+            var oldInventory = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.LastInventoryId).ToList();
+            var lastInventoryProduct = oldInventory.Where(r => r.ProductId == inventoryProducts.ProductId).First();
+            var usage = (lastInventoryProduct.Units - inventoryProducts.Units);
+            var safetyNet = db.Products.Where(s => s.Id == lastInventoryProduct.ProductId).FirstOrDefault();
+            var result = (usage * safetyNet.ProductSafetyNet);
+            inventoryProducts.ParLevel = (usage + result)
+;            return inventoryProducts;
+        }
+
         // GET: InventoryProduct/Edit/5
         public ActionResult Edit(int id)
         {
@@ -136,6 +157,8 @@ namespace Single_Capstone.Controllers
                 iP.Units = inventoryProducts.Units;
                 iP = FindTotalValueOfProducts(iP);
                 iP = FindProfitPerUnit(iP);
+                iP = FindGMROI(iP);
+                iP = FindParLevel(iP);
                 iP.GetDate = DateTime.Now.ToShortDateString();
                 db.Entry(iP).State = EntityState.Modified;
                 db.SaveChanges();

@@ -20,29 +20,37 @@
         <th>
             @Html.DisplayNameFor(model => model.GetDate)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GMROI)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            <span>$</span>
-            @Html.DisplayFor(modelItem => item.TotalInventoryWorth)
-        </td>
-        <td>
-            <span>$</span>
-            @Html.DisplayFor(modelItem => item.ProfitMargin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GetDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Inventory Details", "SelectedInventoryDetails", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-            @Html.ActionLink("Add Product", "Create", "Product", new { id = item.Id }, null)
-        </td>
-    </tr>
+<tr>
+    <td>
+        <span>$</span>
+        @Html.DisplayFor(modelItem => item.TotalInventoryWorth)
+    </td>
+    <td>
+        <span>$</span>
+        @Html.DisplayFor(modelItem => item.ProfitMargin)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.GetDate)
+    </td>
+    <td>
+        <span>$</span>
+        @Html.DisplayFor(modelItem => item.GMROI)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Inventory Details", "SelectedInventoryDetails", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+        @Html.ActionLink("Add Product", "Create", "Product", new { id = item.Id }, null)
+
+    </td>
+</tr>
 }
 
 </table>

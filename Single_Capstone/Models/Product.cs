@@ -20,5 +20,8 @@ namespace Single_Capstone.Models
 
         [Display(Name = "Selling Price Per Unit")]
         public double PricePerUnitSelling { get; set; }
+
+        [Display(Name ="Safety Net '.00'")]
+        public double ProductSafetyNet { get; set; }
     }
 }

@@ -26,34 +26,41 @@
         <th>
             @Html.DisplayNameFor(model => model.ProfitToBeMadePerUnit)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GMROI)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Units)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GetDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            <span>$</span>
-            @Html.DisplayFor(modelItem => item.TotalValueOfProducts)
-        </td>
-        <td>
-            <span>$</span>
-            @Html.DisplayFor(modelItem => item.ProfitToBeMadePerUnit)
-        </td>
-        <td>
-            @Html.ActionLink("Take Count", "Edit", "InventoryProduct", new { id=item.Id }, null) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Units)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.GetDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductName)
+    </td>
+    <td>
+        <span>$</span>
+        @Html.DisplayFor(modelItem => item.TotalValueOfProducts)
+    </td>
+    <td>
+        <span>$</span>
+        @Html.DisplayFor(modelItem => item.ProfitToBeMadePerUnit)
+    </td>
+    <td>
+        <span>$</span>
+        @Html.DisplayFor(modelItem => item.GMROI)
+    </td>
+    <td>
+        @Html.ActionLink("Take Count", "Edit", "InventoryProduct", new { id = item.Id }, null) |
+        @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
-        </td>
-    </tr>
+    </td>
+</tr>
 }
 
 </table>

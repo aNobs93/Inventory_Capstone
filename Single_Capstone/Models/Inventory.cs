@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-
 namespace Single_Capstone.Models
 {
-    public class Inventory
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Inventory
     {
-        [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Business")]
         public int BusinessId { get; set; }
-        public Business Business { get; set; }
 
-        [Display(Name ="Total Value")]
         public double TotalInventoryWorth { get; set; }
 
-        [Display(Name ="Profit Margin")]
         public double ProfitMargin { get; set; }
-        public List<Product> Products { get; set; }
 
-        [Display(Name ="Date Taken")]
         public string GetDate { get; set; }
 
         public int LastInventoryId { get; set; }
+
+        public double COGS { get; set; }
+
+        public double AverageInventory { get; set; }
+
+        public double GMROI { get; set; }
     }
 }

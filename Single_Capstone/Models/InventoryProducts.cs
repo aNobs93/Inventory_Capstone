@@ -40,5 +40,9 @@ namespace Single_Capstone.Models
         public int TimesOrdered { get; set; }
 
         public double AmountOrdered { get; set; }
+
+        public double GMROI { get; set; }
+
+        public double ParLevel { get; set; }
     }
 }

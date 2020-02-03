@@ -26,6 +26,7 @@ namespace Single_Capstone.Controllers
             var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
             inventory.TotalInventoryWorth += inventoryProducts.TotalValueOfProducts;
             inventory.ProfitMargin += (inventoryProducts.ProfitToBeMadePerUnit * inventoryProducts.Units);
+            inventory.GMROI = Math.Round(inventory.ProfitMargin / inventory.TotalInventoryWorth, 2);
             db.Entry(inventory).State = EntityState.Modified;
             db.SaveChanges();
              
@@ -53,19 +54,24 @@ namespace Single_Capstone.Controllers
         {
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+            var key = db.Inventories.Where(k => k.BusinessId == business.Id).FirstOrDefault();
+            if(key == null)
+            {
+                Inventory Inventory = new Inventory();
+                Inventory.BusinessId = business.Id;
+                Inventory.GetDate = DateTime.Now.ToShortDateString();
+                db.Inventories.Add(Inventory);
+                db.SaveChanges();
+                return RedirectToAction("Index");//if this is first inventory taken it goes here
+            }
             var findMax = db.Inventories.Where(f => f.BusinessId == business.Id).ToList();
             int max = findMax.Max(m => m.Id);
             Inventory inventory = new Inventory();
-            var key = db.Inventories.Where(k => k.BusinessId == business.Id).FirstOrDefault();
             inventory.BusinessId = business.Id;
             inventory.GetDate = DateTime.Now.ToShortDateString();
             inventory.LastInventoryId = max;
             db.Inventories.Add(inventory);
             db.SaveChanges();
-            if(key == null)
-            {
-                return RedirectToAction("Index");
-            }
             return RedirectToAction("Create", "InventoryProduct", inventory);
             
         }
