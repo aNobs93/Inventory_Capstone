@@ -30,7 +30,7 @@ namespace Single_Capstone.Controllers
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
             var findMax = db.Inventories.Where(f => f.BusinessId == business.Id).ToList();
-            int max = findMax.Max(m => m.Id);
+            int max = findMax.Max(m => m.Id);//finds the newest inventory done to add the invoice to
             var products = db.InventoryProducts.Where(p => p.InventoryId == max).ToList();
             return View(products);
         }
@@ -50,7 +50,7 @@ namespace Single_Capstone.Controllers
                 inventoryProducts.Units = 0;
                 inventoryProducts.TotalValueOfProducts = 0;
                 inventoryProducts.TimesOrdered = 0;
-                inventoryProducts.AmountOrdered = 0;
+                inventoryProducts.AmountOrdered = 0;//Add GMROI to 0
                 db.InventoryProducts.Add(inventoryProducts);
                 db.SaveChanges();
             }
@@ -174,6 +174,7 @@ namespace Single_Capstone.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var product = db.InventoryProducts.Where(p => p.Id == id).FirstOrDefault();
+            product.Units = 0;
             if (product == null)
             {
                 return HttpNotFound();
@@ -191,8 +192,15 @@ namespace Single_Capstone.Controllers
                 ip.TimesOrdered++;
                 ip.AmountOrdered += inventoryProducts.Units;
                 ip.Units = (ip.Units + inventoryProducts.Units);
+                ip = FindTotalValueOfProducts(ip);
+                ip = FindProfitPerUnit(ip);
+                ip = FindGMROI(ip);
+                //ip = FindParLevel(ip);
+                ip.GetDate = DateTime.Now.ToShortDateString();
+                db.Entry(ip).State = EntityState.Modified;
+                db.SaveChanges();
 
-                return RedirectToAction("CalcInventoryValue", "Inventory");
+                return RedirectToAction("Index", "Inventory");
             }
             return RedirectToAction("Index", "Inventory");
         }

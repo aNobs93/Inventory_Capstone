@@ -29,6 +29,9 @@
         <th>
             @Html.DisplayNameFor(model => model.GMROI)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParLevel)
+        </th>
         <th></th>
     </tr>
 
@@ -54,6 +57,9 @@
     <td>
         <span>$</span>
         @Html.DisplayFor(modelItem => item.GMROI)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ParLevel)
     </td>
     <td>
         @Html.ActionLink("Take Count", "Edit", "InventoryProduct", new { id = item.Id }, null) |

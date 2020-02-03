@@ -12,15 +12,15 @@ namespace Single_Capstone.Models
 
         public int BusinessId { get; set; }
 
+        [Display(Name ="Cost Of Goods")]
         public double TotalInventoryWorth { get; set; }
 
+        [Display(Name = "Gross Profit Margin")]
         public double ProfitMargin { get; set; }
 
         public string GetDate { get; set; }
 
         public int LastInventoryId { get; set; }
-
-        public double COGS { get; set; }
 
         public double AverageInventory { get; set; }
 
