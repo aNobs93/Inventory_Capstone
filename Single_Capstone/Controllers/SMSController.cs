@@ -13,12 +13,12 @@ namespace Single_Capstone.Controllers
     public class SMSController : TwilioController
     {
         // GET: SMS
-        public ActionResult SendSms()
+        public ActionResult SendSms(InventoryProducts inventoryProducts)
         {
             TwilioClient.Init(PrivateKeys.AccountSID, PrivateKeys.AuthToken);
 
             var message = MessageResource.Create(
-                body: "Join Earth's mightiest heroes. Like Kevin Bacon.",
+                body: inventoryProducts.ProductName + ", is under Par level of " + inventoryProducts.ParLevel + ". Please make sure to add it to your order.",
                 from: new Twilio.Types.PhoneNumber(PrivateKeys.TwilioPhoneNumber),
                 to: new Twilio.Types.PhoneNumber(PrivateKeys.MyPhoneNumber)
                 );
