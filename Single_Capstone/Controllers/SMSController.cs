@@ -22,7 +22,7 @@ namespace Single_Capstone.Controllers
                 from: new Twilio.Types.PhoneNumber(PrivateKeys.TwilioPhoneNumber),
                 to: new Twilio.Types.PhoneNumber(PrivateKeys.MyPhoneNumber)
                 );
-            return View();
+            return RedirectToAction("Index", "Inventory");
         }
     }
 }

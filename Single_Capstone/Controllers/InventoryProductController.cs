@@ -162,6 +162,10 @@ namespace Single_Capstone.Controllers
                 iP.GetDate = DateTime.Now.ToShortDateString();
                 db.Entry(iP).State = EntityState.Modified;
                 db.SaveChanges();
+                //if(iP.Units > iP.ParLevel)
+                //{
+                //    return RedirectToAction("SendSms", "SMS", iP);
+                //}
                 return RedirectToAction("CalcInventoryValue", "Inventory", iP);
             }
             return RedirectToAction("Index", "Inventory");

@@ -29,7 +29,10 @@ namespace Single_Capstone.Controllers
             inventory.GMROI = Math.Round(inventory.ProfitMargin / inventory.TotalInventoryWorth, 2);
             db.Entry(inventory).State = EntityState.Modified;
             db.SaveChanges();
-             
+            if (inventoryProducts.Units < inventoryProducts.ParLevel)
+            {
+                return RedirectToAction("SendSms", "SMS", inventoryProducts);
+            }
 
             return RedirectToAction("Index");
         }
