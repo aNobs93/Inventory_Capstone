@@ -21,17 +21,17 @@ namespace Single_Capstone.Controllers
             var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).ToList();
             List<DataPoint> dataPoints = new List<DataPoint>{ };
             int k = 0;
-            int j = 1;
+            //int j = 1;
             for (k = 0/*, j = 1*/; k < inventory.Count;/* && j < inventory.Count; */k++/*, j++*/)
             {
-                dataPoints.Add(new DataPoint(inventory[k].GetDate, inventory[k].TotalInventoryWorth));
+                dataPoints.Add(new DataPoint(inventory[k].TotalInventoryWorth, inventory[k].GetDate));
             }
             //new DataPoint(10, 22),
             //    new DataPoint(20, 36),
             //    new DataPoint(30, 42),
             //    new DataPoint(40, 51),
             //    new DataPoint(50, 46),
-            var today = DateTime.Today;
+            //var today = DateTime.Today;
 
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
 

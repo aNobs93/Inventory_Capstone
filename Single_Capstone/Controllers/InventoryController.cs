@@ -44,7 +44,7 @@ namespace Single_Capstone.Controllers
             return View(inventoryProducts);
         }
 
-        public ActionResult FindLastYearsInventory(int id) //need to find how to pass the inventory id through to GetProductsFromLastYear
+        public ActionResult FindLastYearsInventory(int id) //come heres for recommendations, it finds the prior years future month
         {
             var inventory = db.Inventories.Find(id);
             var myDate = DateTime.Parse(inventory.GetDate);
@@ -65,7 +65,7 @@ namespace Single_Capstone.Controllers
             return RedirectToAction("GetProductFromLastYear", inv);
         }
 
-        public ActionResult GetProductFromLastYear(Inventory inventory)
+        public ActionResult GetProductFromLastYear(Inventory inventory)//pulls all the product from found inventory and compares and composes message to send if there is one
         {
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
