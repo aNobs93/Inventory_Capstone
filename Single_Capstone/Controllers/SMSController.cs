@@ -24,5 +24,23 @@ namespace Single_Capstone.Controllers
                 );
             return RedirectToAction("Index", "Inventory");
         }
+
+        public ActionResult SendRecommendations()
+        {
+            TwilioClient.Init(PrivateKeys.AccountSID, PrivateKeys.AuthToken);
+                        var message = MessageResource.Create(
+                body: RecommendViewModel.MessageToSend,
+                from: new Twilio.Types.PhoneNumber(PrivateKeys.TwilioPhoneNumber),
+                to: new Twilio.Types.PhoneNumber(PrivateKeys.MyPhoneNumber)
+                );
+            return RedirectToAction("ClearMessage");
+        }
+
+        public ActionResult ClearMessage()
+        {
+            RecommendViewModel.InventoryId = 0;
+            RecommendViewModel.MessageToSend = null;
+            return RedirectToAction("Index", "Inventory");
+        }
     }
 }

@@ -132,6 +132,14 @@ namespace Single_Capstone.Controllers
 ;            return inventoryProducts;
         }
 
+        public InventoryProducts FindHowMuchSold(InventoryProducts inventoryProducts)
+        {
+            var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
+            var lastInventoryProduct = db.InventoryProducts.Where(l => l.InventoryId == inventory.LastInventoryId && l.ProductId == inventoryProducts.ProductId).FirstOrDefault();
+            inventoryProducts.AmountSold = (lastInventoryProduct.Units - inventoryProducts.Units);
+            return inventoryProducts;
+        }
+
         // GET: InventoryProduct/Edit/5
         public ActionResult Edit(int id)
         {
@@ -159,13 +167,10 @@ namespace Single_Capstone.Controllers
                 iP = FindProfitPerUnit(iP);
                 iP = FindGMROI(iP);
                 iP = FindParLevel(iP);
+                iP = FindHowMuchSold(iP);
                 iP.GetDate = DateTime.Now.ToShortDateString();
                 db.Entry(iP).State = EntityState.Modified;
                 db.SaveChanges();
-                //if(iP.Units > iP.ParLevel)
-                //{
-                //    return RedirectToAction("SendSms", "SMS", iP);
-                //}
                 return RedirectToAction("CalcInventoryValue", "Inventory", iP);
             }
             return RedirectToAction("Index", "Inventory");

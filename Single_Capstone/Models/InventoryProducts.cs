@@ -41,6 +41,7 @@ namespace Single_Capstone.Models
 
         public double AmountOrdered { get; set; }
 
+        public double AmountSold { get; set; }
         public double GMROI { get; set; }
 
         public double ParLevel { get; set; }

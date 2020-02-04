@@ -95,7 +95,6 @@ namespace Single_Capstone.Migrations
                         ProfitMargin = c.Double(nullable: false),
                         GetDate = c.String(),
                         LastInventoryId = c.Int(nullable: false),
-                        COGS = c.Double(nullable: false),
                         AverageInventory = c.Double(nullable: false),
                         GMROI = c.Double(nullable: false),
                     })
@@ -115,6 +114,7 @@ namespace Single_Capstone.Migrations
                         ProfitToBeMadePerUnit = c.Double(nullable: false),
                         TimesOrdered = c.Int(nullable: false),
                         AmountOrdered = c.Double(nullable: false),
+                        AmountSold = c.Double(nullable: false),
                         GMROI = c.Double(nullable: false),
                         ParLevel = c.Double(nullable: false),
                     })

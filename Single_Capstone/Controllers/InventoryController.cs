@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -43,24 +44,48 @@ namespace Single_Capstone.Controllers
             return View(inventoryProducts);
         }
 
-        public void CheckForRecommendations(int id)
+        public ActionResult FindLastYearsInventory(int id) //need to find how to pass the inventory id through to GetProductsFromLastYear
         {
             var inventory = db.Inventories.Find(id);
             var myDate = DateTime.Parse(inventory.GetDate);
-            var myYear = (myDate.AddYears(-1));
+            var myMonth = myDate.AddMonths(+1);
+            var myYear = myDate.AddYears(-1);
             var allInventories = db.Inventories.Where(i => i.BusinessId == inventory.BusinessId).ToList();
-            int invTocheck;
-            for(int i = 0; i< allInventories.Count; i++)
-            {
+            //int invTocheck;
+            for (int i = 0; i< allInventories.Count; i++)
+            {                
                 var oldDate = DateTime.Parse(allInventories[i].GetDate);
-                if (oldDate.Month == myDate.Month && oldDate.Year == myYear.Year)
+                if (oldDate.Month == myMonth.Month && oldDate.Year == myYear.Year)
                 {
-                    invTocheck = allInventories[i].Id;
+                    RecommendViewModel.InventoryId = allInventories[i].Id;
+                    //return RedirectToAction("GetProductFromLastYear", invTocheck);
                 }
-
             }
-            //var lastYearsInventory = 
+            var inv = db.Inventories.Where(j => j.Id == RecommendViewModel.InventoryId).FirstOrDefault();
+            return RedirectToAction("GetProductFromLastYear", inv);
         }
+
+        public ActionResult GetProductFromLastYear(Inventory inventory)
+        {
+            var userId = User.Identity.GetUserId();
+            var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+            var inventories = db.Inventories.Where(i => i.BusinessId == business.Id).ToList();
+            var thisInventoryId = inventories.Max(i => i.Id);
+            var thisInventory = db.InventoryProducts.Where(i => i.InventoryId == thisInventoryId).ToList();
+            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id/*inventory.Id*/).ToList();
+            //var message = new System.Text.StringBuilder();
+            for (int i = 0; i < inventoryProducts.Count; i++)
+            {
+                if (thisInventory[i].Units < inventoryProducts[i].AmountSold)
+                {
+                    var amountToOrder = (inventoryProducts[i].AmountSold - thisInventory[i].Units);
+/*                     message.AppendLine(*/RecommendViewModel.MessageToSend += "You sold " + inventoryProducts[i].AmountSold + " " + inventoryProducts[i].ProductName + " last year. Currently you have " +
+                        thisInventory[i].Units + " " + inventoryProducts[i].ProductName + ". We recommend ordering " + amountToOrder + " " + inventoryProducts[i].ProductName + ". ";
+                }
+            }
+            return RedirectToAction("SendRecommendations", "SMS");
+        }
+
 
         // GET: Inventory/Details/5
         public ActionResult Details()
