@@ -43,6 +43,25 @@ namespace Single_Capstone.Controllers
             return View(inventoryProducts);
         }
 
+        public void CheckForRecommendations(int id)
+        {
+            var inventory = db.Inventories.Find(id);
+            var myDate = DateTime.Parse(inventory.GetDate);
+            var myYear = (myDate.AddYears(-1));
+            var allInventories = db.Inventories.Where(i => i.BusinessId == inventory.BusinessId).ToList();
+            int invTocheck;
+            for(int i = 0; i< allInventories.Count; i++)
+            {
+                var oldDate = DateTime.Parse(allInventories[i].GetDate);
+                if (oldDate.Month == myDate.Month && oldDate.Year == myYear.Year)
+                {
+                    invTocheck = allInventories[i].Id;
+                }
+
+            }
+            //var lastYearsInventory = 
+        }
+
         // GET: Inventory/Details/5
         public ActionResult Details()
         {
