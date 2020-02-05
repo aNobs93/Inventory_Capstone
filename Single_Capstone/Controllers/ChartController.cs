@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using Single_Capstone.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNet.Identity;
+using System.Globalization;
 
 namespace Single_Capstone.Controllers
 {
@@ -86,6 +87,7 @@ namespace Single_Capstone.Controllers
         public ActionResult HistoricalAmountAndPriceChart(Inventory inventory)//Shows historical data of selected inventory
         
         {
+            var inventorys = db.Inventories.Where(i => i.Id == inventory.Id).FirstOrDefault();
             var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
             List<DataPoint> dataPoints = new List<DataPoint> { };
             for(int i = 0; i < inventoryProducts.Count; i++)
@@ -99,14 +101,18 @@ namespace Single_Capstone.Controllers
                 dataPoints2.Add(new DataPoint(inventoryProducts[i].TotalValueOfProducts, inventoryProducts[i].ProductName));
 
             }
+            var myDate = DateTime.Parse(inventorys.GetDate);
+            var myMonthInt = myDate.Month;
+            var myMonthString =  CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(myMonthInt);
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
             ViewBag.Units = JsonConvert.SerializeObject("Units");
-            ViewBag.Value = JsonConvert.SerializeObject("Total Inventory Value");
+            ViewBag.Value = JsonConvert.SerializeObject("Total Cost Inventory Value");
+            ViewBag.Title = JsonConvert.SerializeObject("Inventory of " + myMonthString);
             return View();
         }
 
-        public ActionResult HistoricalDataWhatSoldTheMostDuringInvetory(Inventory inventory)
+        public ActionResult HistoricalDataWhatSoldTheMostDuringInventory(Inventory inventory)
         {
             var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
             List<DataPoint> dataPoints = new List<DataPoint> { };
@@ -126,6 +132,7 @@ namespace Single_Capstone.Controllers
             ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
             ViewBag.Units = JsonConvert.SerializeObject("Amount Sold");
             ViewBag.Value = JsonConvert.SerializeObject("Total Profit Made");
+            ViewBag.Title = JsonConvert.SerializeObject("What Sold And $ Made");
             return View("HistoricalAmountAndPriceChart");
         }
 
