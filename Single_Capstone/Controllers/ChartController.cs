@@ -38,9 +38,28 @@ namespace Single_Capstone.Controllers
             return View();
         }
 
-        public ActionResult PastHistoricalDataMonth(Inventory inventory)
+        public ActionResult MonthlyProfitCharts()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
+            var inventories = db.Inventories.Where(i => i.BusinessId == business.Id).ToList();
+            List<DataPoint> dataPoints = new List<DataPoint> { };
+            for (int i = 0, j = 1; i < inventories.Count; i++, j++)
+            {
+                try
+                {
+                    double profit = (inventories[i].ProfitMargin - inventories[j].ProfitMargin);
+                    dataPoints.Add(new DataPoint(profit, inventories[j].GetDate));
+                }
+                catch
+                {
+
+                }
+             
+            }
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+            ViewBag.ProductName = JsonConvert.SerializeObject("Monthly Profit");
+            return View("PastHistoricalDataForSpecificProduct");
         }
 
         public ActionResult PastHistoricalDataForSpecificProduct(InventoryProducts inventoryProducts)
@@ -60,7 +79,7 @@ namespace Single_Capstone.Controllers
 
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-            ViewBag.ProductName = JsonConvert.SerializeObject(inventoryProducts.ProductName);
+            ViewBag.ProductName = JsonConvert.SerializeObject(inventoryProducts.ProductName + " Inventory");
             return View();
         }
 
