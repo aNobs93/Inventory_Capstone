@@ -90,17 +90,19 @@ namespace Single_Capstone.Controllers
             List<DataPoint> dataPoints = new List<DataPoint> { };
             for(int i = 0; i < inventoryProducts.Count; i++)
             {
-                dataPoints.Add(new DataPoint(inventoryProducts[i].Units, inventoryProducts[i].GetDate));
+                dataPoints.Add(new DataPoint(inventoryProducts[i].Units, inventoryProducts[i].ProductName));
 
             }
             List<DataPoint> dataPoints2 = new List<DataPoint> { };
             for (int i = 0; i < inventoryProducts.Count; i++)
             {
-                dataPoints2.Add(new DataPoint(inventoryProducts[i].TotalValueOfProducts, inventoryProducts[i].GetDate));
+                dataPoints2.Add(new DataPoint(inventoryProducts[i].TotalValueOfProducts, inventoryProducts[i].ProductName));
 
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
+            ViewBag.Units = JsonConvert.SerializeObject("Units");
+            ViewBag.Value = JsonConvert.SerializeObject("Total Inventory Value");
             return View();
         }
 
