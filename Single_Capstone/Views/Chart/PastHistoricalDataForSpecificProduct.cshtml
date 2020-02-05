@@ -8,9 +8,11 @@
                     window.onload = function () {
                         var chart = new CanvasJS.Chart("chartContainer",
                             {
-
-                                title: {
-                                    text: @Html.Raw(ViewBag.ProductName)
+                                animationEnabled: true, 
+		                        animationDuration: 2000,
+                                backgrounColor: "#92d0de",
+                                title:{
+                                    text: @Html.Raw(ViewBag.Title)
                                 },
                                 data: [
                                     {

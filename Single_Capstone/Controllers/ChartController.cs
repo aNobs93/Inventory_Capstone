@@ -38,7 +38,7 @@ namespace Single_Capstone.Controllers
             return View();
         }
 
-        public ActionResult MonthlyProfitCharts()
+        public ActionResult ProfitCharts()
         {
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
@@ -58,7 +58,7 @@ namespace Single_Capstone.Controllers
              
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-            ViewBag.ProductName = JsonConvert.SerializeObject("Monthly Profit");
+            ViewBag.Title = JsonConvert.SerializeObject("Monthly Profit");
             return View("PastHistoricalDataForSpecificProduct");
         }
 
@@ -79,7 +79,28 @@ namespace Single_Capstone.Controllers
 
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-            ViewBag.ProductName = JsonConvert.SerializeObject(inventoryProducts.ProductName + " Inventory");
+            ViewBag.Title = JsonConvert.SerializeObject(inventoryProducts.ProductName + " Inventory");
+            return View();
+        }
+
+        public ActionResult HistoricalAmountAndPriceChart(Inventory inventory)
+        
+        {
+            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
+            List<DataPoint> dataPoints = new List<DataPoint> { };
+            for(int i = 0; i < inventoryProducts.Count; i++)
+            {
+                dataPoints.Add(new DataPoint(inventoryProducts[i].Units, inventoryProducts[i].GetDate));
+
+            }
+            List<DataPoint> dataPoints2 = new List<DataPoint> { };
+            for (int i = 0; i < inventoryProducts.Count; i++)
+            {
+                dataPoints2.Add(new DataPoint(inventoryProducts[i].TotalValueOfProducts, inventoryProducts[i].GetDate));
+
+            }
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+            ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
             return View();
         }
 
