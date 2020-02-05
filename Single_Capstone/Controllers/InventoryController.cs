@@ -58,7 +58,6 @@ namespace Single_Capstone.Controllers
                 if (oldDate.Month == myMonth.Month && oldDate.Year == myYear.Year)
                 {
                     RecommendViewModel.InventoryId = allInventories[i].Id;
-                    //return RedirectToAction("GetProductFromLastYear", invTocheck);
                 }
             }
             var inv = db.Inventories.Where(j => j.Id == RecommendViewModel.InventoryId).FirstOrDefault();
@@ -72,14 +71,13 @@ namespace Single_Capstone.Controllers
             var inventories = db.Inventories.Where(i => i.BusinessId == business.Id).ToList();
             var thisInventoryId = inventories.Max(i => i.Id);
             var thisInventory = db.InventoryProducts.Where(i => i.InventoryId == thisInventoryId).ToList();
-            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id/*inventory.Id*/).ToList();
-            //var message = new System.Text.StringBuilder();
+            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
             for (int i = 0; i < inventoryProducts.Count; i++)
             {
                 if (thisInventory[i].Units < inventoryProducts[i].AmountSold)
                 {
                     var amountToOrder = (inventoryProducts[i].AmountSold - thisInventory[i].Units);
-/*                     message.AppendLine(*/RecommendViewModel.MessageToSend += "You sold " + inventoryProducts[i].AmountSold + " " + inventoryProducts[i].ProductName + " last year. Currently you have " +
+                     RecommendViewModel.MessageToSend += "You sold " + inventoryProducts[i].AmountSold + " " + inventoryProducts[i].ProductName + " next month, last year. Currently you have " +
                         thisInventory[i].Units + " " + inventoryProducts[i].ProductName + ". We recommend ordering " + amountToOrder + " " + inventoryProducts[i].ProductName + ". ";
                 }
             }

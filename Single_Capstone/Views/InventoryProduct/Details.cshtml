@@ -24,20 +24,23 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Units)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GetDate)
-        </td>
-        <td>
-            @Html.ActionLink("Add Units", "AddInventory", new { id=item.Id }) |
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Units)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.GetDate)
+    </td>
+    <td>
+        @Html.ActionLink("Add Units", "AddInventory", new { id = item.Id }) |
+    </td>
+    <td>
+        @Html.ActionLink("View Data", "PastHistoricalDataForSpecificProduct", "Chart", new { id = item.Id }, null) |
+    </td>
+</tr>
 }
 
 </table>

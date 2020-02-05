@@ -38,6 +38,32 @@ namespace Single_Capstone.Controllers
             return View();
         }
 
+        public ActionResult PastHistoricalDataMonth(Inventory inventory)
+        {
+            return View();
+        }
+
+        public ActionResult PastHistoricalDataForSpecificProduct(InventoryProducts inventoryProducts)
+        {
+            inventoryProducts = db.InventoryProducts.Where(ip => ip.Id == inventoryProducts.Id).FirstOrDefault();
+            var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
+            var inventories = db.Inventories.Where(i => i.BusinessId == inventory.BusinessId).ToList();
+            var invProducts = db.InventoryProducts.Where(ip => ip.ProductId == inventoryProducts.ProductId).ToList();
+            List<DataPoint> dataPoints = new List<DataPoint> { };
+            for (int i = 0; i < inventories.Count; i++)
+            {
+                if(invProducts[i].InventoryId == inventories[i].Id)
+                {
+                    dataPoints.Add(new DataPoint(invProducts[i].Units, inventories[i].GetDate));
+                }
+                //inventoryProduct += db.InventoryProducts.Where(ip => ip.InventoryId == inventories[i].Id && ip.ProductId == inventoryProducts.ProductId).ToList();
+
+            }
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+            ViewBag.ProductName = JsonConvert.SerializeObject(inventoryProducts.ProductName);
+            return View();
+        }
+
         // GET: Chart/Details/5
         public ActionResult Details(int id)
         {
