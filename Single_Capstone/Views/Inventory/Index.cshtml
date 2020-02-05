@@ -50,7 +50,7 @@
         @Html.ActionLink("Add Product", "Create", "Product", new { id = item.Id }, null) |
         @Html.ActionLink("Future Recommendations", "FindLastYearsInventory", new { id = item.Id }) |
         @Html.ActionLink("Chart Of Product And Price", "HistoricalAmountAndPriceChart", "Chart", new { id = item.Id }, null) |
-
+        @Html.ActionLink("See What Was Hott!", "HistoricalDataWhatSoldTheMostDuringInvetory", "Chart", new { id = item.Id }, null) |
     </td>
 </tr>
 }

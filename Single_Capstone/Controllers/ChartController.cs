@@ -38,7 +38,7 @@ namespace Single_Capstone.Controllers
             return View();
         }
 
-        public ActionResult ProfitCharts()
+        public ActionResult ProfitCharts()//Shows your monthly profit chart.
         {
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
@@ -62,7 +62,7 @@ namespace Single_Capstone.Controllers
             return View("PastHistoricalDataForSpecificProduct");
         }
 
-        public ActionResult PastHistoricalDataForSpecificProduct(InventoryProducts inventoryProducts)
+        public ActionResult PastHistoricalDataForSpecificProduct(InventoryProducts inventoryProducts)//Shows the trends of selected product
         {
             inventoryProducts = db.InventoryProducts.Where(ip => ip.Id == inventoryProducts.Id).FirstOrDefault();
             var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
@@ -83,7 +83,7 @@ namespace Single_Capstone.Controllers
             return View();
         }
 
-        public ActionResult HistoricalAmountAndPriceChart(Inventory inventory)
+        public ActionResult HistoricalAmountAndPriceChart(Inventory inventory)//Shows historical data of selected inventory
         
         {
             var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
@@ -104,6 +104,29 @@ namespace Single_Capstone.Controllers
             ViewBag.Units = JsonConvert.SerializeObject("Units");
             ViewBag.Value = JsonConvert.SerializeObject("Total Inventory Value");
             return View();
+        }
+
+        public ActionResult HistoricalDataWhatSoldTheMostDuringInvetory(Inventory inventory)
+        {
+            var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
+            List<DataPoint> dataPoints = new List<DataPoint> { };
+
+            for (int i = 0; i < inventoryProducts.Count; i++)
+            {
+                dataPoints.Add(new DataPoint(inventoryProducts[i].AmountSold, inventoryProducts[i].ProductName));
+            }
+            List<DataPoint> dataPoints2 = new List<DataPoint> { };
+            for (int i = 0; i < inventoryProducts.Count; i++)
+            {
+                var profit = (inventoryProducts[i].ProfitToBeMadePerUnit * inventoryProducts[i].AmountSold);
+                dataPoints2.Add(new DataPoint(profit, inventoryProducts[i].ProductName));
+
+            }
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+            ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
+            ViewBag.Units = JsonConvert.SerializeObject("Amount Sold");
+            ViewBag.Value = JsonConvert.SerializeObject("Total Profit Made");
+            return View("HistoricalAmountAndPriceChart");
         }
 
         // GET: Chart/Details/5
