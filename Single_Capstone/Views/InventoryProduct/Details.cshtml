@@ -35,12 +35,17 @@
         @Html.DisplayFor(modelItem => item.GetDate)
     </td>
     <td>
-        @Html.ActionLink("Add Units", "AddInventory", new { id = item.Id }) |
-    </td>
-    <td>
-        @Html.ActionLink("View Data", "PastHistoricalDataForSpecificProduct", "Chart", new { id = item.Id }, null) |
+        <div class="btn-group">
+            <a class="btn btn-info" value="Create" onclick="location.href='@Url.Action("AddInventory", new { id = item.Id })'">Add Units</a>
+            <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li class="divider"></li>
+                <li><a href="@Url.Action("PastHistoricalDataForSpecificProduct", "Chart", new { id = item.Id }, null)">View Data</a></li>
+            </ul>
+        </div>
     </td>
 </tr>
 }
 
 </table>
+

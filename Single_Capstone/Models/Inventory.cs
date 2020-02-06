@@ -18,6 +18,7 @@ namespace Single_Capstone.Models
         [Display(Name = "Gross Profit Margin")]
         public double ProfitMargin { get; set; }
 
+        [Display(Name ="Date Taken")]
         public string GetDate { get; set; }
 
         public int LastInventoryId { get; set; }

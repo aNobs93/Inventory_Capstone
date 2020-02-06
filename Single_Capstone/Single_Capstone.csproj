@@ -189,7 +189,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ApplcationDbContext.cs" />
     <Compile Include="Controllers\BusinessController.cs" />
     <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -223,6 +222,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-slate.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -292,7 +292,6 @@
     <Content Include="Views\InventoryProduct\Edit.cshtml" />
     <Content Include="Views\InventoryProduct\Details.cshtml" />
     <Content Include="Views\InventoryProduct\AddInventory.cshtml" />
-    <Content Include="Views\Chart\Index.cshtml" />
     <Content Include="Views\Chart\PastHistoricalDataForSpecificProduct.cshtml" />
     <Content Include="Views\Chart\HistoricalAmountAndPriceChart.cshtml" />
   </ItemGroup>

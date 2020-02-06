@@ -38,8 +38,13 @@ namespace Single_Capstone.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult SelectedInventoryDetails(int id)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
+        public ActionResult SelectedInventoryDetails(int id, Inventory inventory)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
         {
+            if(inventory.Id != null)
+            {
+                var iP = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
+                return View(iP);
+            }
             var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
             return View(inventoryProducts);
         }

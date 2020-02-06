@@ -1,21 +1,14 @@
 ﻿@model IEnumerable<Single_Capstone.Models.InventoryProducts>
 
 @{
-    ViewBag.Title = "SelectedInventoryDetails";
+    ViewBag.Title = Html.DisplayNameFor(model => model.GetDate);
 }
 
 <h2>SelectedInventoryDetails</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Units)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GetDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductName)
@@ -41,9 +34,6 @@
         @Html.DisplayFor(modelItem => item.Units)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.GetDate)
-    </td>
-    <td>
         @Html.DisplayFor(modelItem => item.ProductName)
     </td>
     <td>
@@ -62,9 +52,7 @@
         @Html.DisplayFor(modelItem => item.ParLevel)
     </td>
     <td>
-        @Html.ActionLink("Take Count", "Edit", "InventoryProduct", new { id = item.Id }, null) |
-        @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+        <a href="@Url.Action("Edit", "InventoryProduct", new { id = item.Id }, null)" class="btn btn-info">Take Count</a>
     </td>
 </tr>
 }
