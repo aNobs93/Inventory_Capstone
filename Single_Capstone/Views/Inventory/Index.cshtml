@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Single_Capstone.Models.Inventory>
 
 @{
-    ViewBag.Title = "Inventories";
+    ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Inventories</h2>
 
 <p>
     @Html.ActionLink("Start New Inventory", "Create")
@@ -26,46 +26,49 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        <span>$</span>
-        @Html.DisplayFor(modelItem => item.TotalInventoryWorth)
-    </td>
-    <td>
-        <span>$</span>
-        @Html.DisplayFor(modelItem => item.ProfitMargin)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.GetDate)
-    </td>
-    <td>
-        <span>$</span>
-        @Html.DisplayFor(modelItem => item.GMROI)
-    </td>
-    <td>
-        <div class="btn-group">
-            <a class="btn btn-info" value="Create" onclick="location.href='@Url.Action("SelectedInventoryDetails", new { id = item.Id })'">Inventory Details</a>
-            <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li class="divider"></li>
-                <li><a href="@Url.Action("Create", "Product", new { id = item.Id }, null)">Add New Product</a></li>
-                <li><a href="@Url.Action("FindLastYearsInventory", new { id = item.Id })">Get Recommendations</a></li>
-                <li><a href="@Url.Action("HistoricalAmountAndPriceChart", "Chart", new { id = item.Id }, null)">Products And Prices</a></li>
-                <li><a href="@Url.Action("HistoricalDataWhatSoldTheMostDuringInventory", "Chart", new { id = item.Id }, null)">See What Was Hot!</a></li>
-            </ul>
-        </div>
-    </td>
-    <td>
-        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
-        @*@Html.ActionLink("Inventory Details", "SelectedInventoryDetails", new { id = item.Id }) |*@
-        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
-        @*@Html.ActionLink("Add Product", "Create", "Product", new { id = item.Id }, null) |*@
-        @*@Html.ActionLink("Future Recommendations", "FindLastYearsInventory", new { id = item.Id }) |*@
-        @*@Html.ActionLink("Chart Of Product And Price", "HistoricalAmountAndPriceChart", "Chart", new { id = item.Id }, null) |
-        @Html.ActionLink("See What Was Hott!", "HistoricalDataWhatSoldTheMostDuringInventory", "Chart", new { id = item.Id }, null) |*@
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <span>$</span>
+                @Html.DisplayFor(modelItem => item.TotalInventoryWorth)
+            </td>
+            <td>
+                <span>$</span>
+                @Html.DisplayFor(modelItem => item.ProfitMargin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GetDate)
+            </td>
+            <td>
+                <span>$</span>
+                @Html.DisplayFor(modelItem => item.GMROI)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-info" value="Create" onclick="location.href='@Url.Action("SelectedInventoryDetails", new { id = item.Id })'">Inventory Details</a>
+                    <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="divider"></li>
+                        <li><a href="@Url.Action("Create", "Product", new { id = item.Id }, null)">Add New Product</a></li>
+                        <li><a href="@Url.Action("FindLastYearsInventory", new { id = item.Id })">Get Recommendations</a></li>
+                        <li><a href="@Url.Action("HistoricalAmountAndPriceChart", "Chart", new { id = item.Id }, null)">Products And Prices</a></li>
+                        <li><a href="@Url.Action("HistoricalDataWhatSoldTheMostDuringInventory", "Chart", new { id = item.Id }, null)">See What Was Hot!</a></li>
+                    </ul>
+                </div>
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+                @*@Html.ActionLink("Inventory Details", "SelectedInventoryDetails", new { id = item.Id }) |*@
+                @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
+                @*@Html.ActionLink("Add Product", "Create", "Product", new { id = item.Id }, null) |*@
+                @*@Html.ActionLink("Future Recommendations", "FindLastYearsInventory", new { id = item.Id }) |*@
+                @*@Html.ActionLink("Chart Of Product And Price", "HistoricalAmountAndPriceChart", "Chart", new { id = item.Id }, null) |
+                    @Html.ActionLink("See What Was Hott!", "HistoricalDataWhatSoldTheMostDuringInventory", "Chart", new { id = item.Id }, null) |*@
+            </td>
+        </tr>
+    }
 
 </table>
+<a href="@Url.Action("ProfitCharts", "Chart")" class="btn btn-default btn-lg btn-block">Profit Trend</a>
+

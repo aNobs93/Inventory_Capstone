@@ -60,6 +60,7 @@ namespace Single_Capstone.Controllers
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             ViewBag.Title = JsonConvert.SerializeObject("Monthly Profit");
+            ViewBag.Key = false;
             return View("PastHistoricalDataForSpecificProduct");
         }
 
@@ -80,6 +81,7 @@ namespace Single_Capstone.Controllers
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             ViewBag.Title = JsonConvert.SerializeObject(inventoryProducts.ProductName + " Inventory");
+            ViewBag.Key = true;
             return View();
         }
 

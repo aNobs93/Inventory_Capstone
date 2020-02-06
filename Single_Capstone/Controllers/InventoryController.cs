@@ -34,8 +34,7 @@ namespace Single_Capstone.Controllers
             {
                 return RedirectToAction("SendSms", "SMS", inventoryProducts);
             }
-
-            return RedirectToAction("Index");
+            return RedirectToAction("SelectedInventoryDetails", inventory);
         }
 
         public ActionResult SelectedInventoryDetails(int id, Inventory inventory)//This allows user to look deeper into previous inventory when they hit details of an inventory from the index
