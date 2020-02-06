@@ -12,6 +12,7 @@ namespace Single_Capstone.Controllers
 {
     public class SMSController : TwilioController
     {
+        ApplicationDbContext db = new ApplicationDbContext();
         // GET: SMS
         public ActionResult SendSms(InventoryProducts inventoryProducts)
         {
@@ -22,7 +23,8 @@ namespace Single_Capstone.Controllers
                 from: new Twilio.Types.PhoneNumber(PrivateKeys.TwilioPhoneNumber),
                 to: new Twilio.Types.PhoneNumber(PrivateKeys.MyPhoneNumber)
                 );
-            return RedirectToAction("Index", "Inventory");
+            var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
+            return RedirectToAction("SelectedInventoryDetails", "Inventory", inventory);
         }
 
         public ActionResult SendRecommendations()
@@ -34,6 +36,17 @@ namespace Single_Capstone.Controllers
                 to: new Twilio.Types.PhoneNumber(PrivateKeys.MyPhoneNumber)
                 );
             return RedirectToAction("ClearMessage");
+        }
+
+        public ActionResult NoRecommendationToSend()
+        {
+            TwilioClient.Init(PrivateKeys.AccountSID, PrivateKeys.AuthToken);
+                    var message = MessageResource.Create(
+                body: "No recommendations at this time.",
+                from: new Twilio.Types.PhoneNumber(PrivateKeys.TwilioPhoneNumber),
+                to: new Twilio.Types.PhoneNumber(PrivateKeys.MyPhoneNumber)
+                );
+            return RedirectToAction("Index", "Inventory");
         }
 
         public ActionResult ClearMessage()

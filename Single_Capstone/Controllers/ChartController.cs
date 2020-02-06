@@ -75,12 +75,12 @@ namespace Single_Capstone.Controllers
             {
                 if(invProducts[i].InventoryId == inventories[i].Id)
                 {
-                    dataPoints.Add(new DataPoint(invProducts[i].Units, inventories[i].GetDate));
+                    dataPoints.Add(new DataPoint(invProducts[i].AmountSold, inventories[i].GetDate));
                 }
 
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-            ViewBag.Title = JsonConvert.SerializeObject(inventoryProducts.ProductName + " Inventory");
+            ViewBag.Title = JsonConvert.SerializeObject(inventoryProducts.ProductName + "'s Sold");
             ViewBag.Key = true;
             return View();
         }
@@ -133,8 +133,14 @@ namespace Single_Capstone.Controllers
             ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
             ViewBag.Units = JsonConvert.SerializeObject("Amount Sold");
             ViewBag.Value = JsonConvert.SerializeObject("Total Profit Made");
-            ViewBag.Title = JsonConvert.SerializeObject("What Sold And $ Made");
+            ViewBag.Title = JsonConvert.SerializeObject("What Sold And Profit Made");
             return View("HistoricalAmountAndPriceChart");
+        }
+
+        public ActionResult DisplayIfProfitWasLostOnProduct(Inventory inventory)
+        {
+
+            return View();
         }
 
         // GET: Chart/Details/5

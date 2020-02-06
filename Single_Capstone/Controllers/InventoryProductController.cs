@@ -140,7 +140,7 @@ namespace Single_Capstone.Controllers
         }
 
         // GET: InventoryProduct/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id)//Take Count
         {
             if (id == null)
             {
@@ -210,9 +210,9 @@ namespace Single_Capstone.Controllers
                 db.Entry(ip).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index", "Inventory");
+                return RedirectToAction("Details");
             }
-            return RedirectToAction("Index", "Inventory");
+            return RedirectToAction("Details");
         }
         /// /////////////////////////////////////////////////////////////////////////////
         // GET: InventoryProduct/Delete/5

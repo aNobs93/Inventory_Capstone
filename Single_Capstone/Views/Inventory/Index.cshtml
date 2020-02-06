@@ -54,17 +54,19 @@
                         <li><a href="@Url.Action("FindLastYearsInventory", new { id = item.Id })">Get Recommendations</a></li>
                         <li><a href="@Url.Action("HistoricalAmountAndPriceChart", "Chart", new { id = item.Id }, null)">Products And Prices</a></li>
                         <li><a href="@Url.Action("HistoricalDataWhatSoldTheMostDuringInventory", "Chart", new { id = item.Id }, null)">See What Was Hot!</a></li>
+                        <li><a href="@Url.Action("ProfitMissedOutOn", new { id = item.Id })">See If You Missed Out On Prices!</a></li>
                     </ul>
                 </div>
             </td>
             <td>
+                
                 @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
                 @*@Html.ActionLink("Inventory Details", "SelectedInventoryDetails", new { id = item.Id }) |*@
                 @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) |*@
                 @*@Html.ActionLink("Add Product", "Create", "Product", new { id = item.Id }, null) |*@
                 @*@Html.ActionLink("Future Recommendations", "FindLastYearsInventory", new { id = item.Id }) |*@
                 @*@Html.ActionLink("Chart Of Product And Price", "HistoricalAmountAndPriceChart", "Chart", new { id = item.Id }, null) |
-                    @Html.ActionLink("See What Was Hott!", "HistoricalDataWhatSoldTheMostDuringInventory", "Chart", new { id = item.Id }, null) |*@
+        @Html.ActionLink("See What Was Hott!", "HistoricalDataWhatSoldTheMostDuringInventory", "Chart", new { id = item.Id }, null) |*@
             </td>
         </tr>
     }
