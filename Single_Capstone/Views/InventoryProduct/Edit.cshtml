@@ -32,6 +32,4 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<a href="@Url.Action("SelectedInventoryDetails", "Inventory", new { id = ViewBag.Back }, null)" class="btn btn-default btn-lg btn-block">Back</a>

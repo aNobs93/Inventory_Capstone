@@ -151,6 +151,8 @@ namespace Single_Capstone.Controllers
             {
                 return HttpNotFound();
             }
+            //var inventory = db.Inventories.Where(i => i.Id == product.InventoryId).FirstOrDefault();
+            ViewBag.Back = product.InventoryId;
             return View(product);
         }
 
