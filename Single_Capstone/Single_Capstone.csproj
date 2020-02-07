@@ -295,6 +295,7 @@
     <Content Include="Views\InventoryProduct\AddInventory.cshtml" />
     <Content Include="Views\Chart\PastHistoricalDataForSpecificProduct.cshtml" />
     <Content Include="Views\Chart\HistoricalAmountAndPriceChart.cshtml" />
+    <Content Include="Views\Chart\DisplayIfProfitWasLostOnProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

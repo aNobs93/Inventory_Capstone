@@ -1,0 +1,49 @@
+﻿<html>
+<head>
+    <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+        backgroundColor: "#92d0de",
+        animationEnabled: true,
+		animationDuration: 2000,
+      title:{
+        text: @Html.Raw(ViewBag.Title),
+
+      },
+      legend: {
+            cursor: "pointer",
+            itemclick: function (e) {
+                //console.log("legend click: " + e.dataPointIndex);
+                //console.log(e);
+                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+
+                e.chart.render();
+            }
+        },
+      data: [{
+        name:@Html.Raw(ViewBag.Units),
+        showInLegend: true,
+        type: "column",
+        dataPoints:
+            @Html.Raw(ViewBag.DataPoints),
+
+      },
+      ]
+    });
+
+    chart.render();
+  }
+    </script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+    <div id="chartContainer" style="height: 300px; width: 100%;">
+    </div>
+</body>
+</html>
+<a href="@Url.Action("Index", "Inventory")" class="btn btn-default btn-lg btn-block">Back</a>

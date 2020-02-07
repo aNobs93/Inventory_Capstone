@@ -103,7 +103,6 @@ namespace Single_Capstone.Controllers
                 if (oldDate.Month == myDate.Month && oldDate.Year == myYear.Year)
                 {
                     return allInventories[i].Id;
-                    //var inventory = db.Inventories.Where(i => i.)
                 }
             }
             return 0;
@@ -111,18 +110,17 @@ namespace Single_Capstone.Controllers
 
         public ActionResult ProfitMissedOutOn(int id)//start here tomorrow
         {
+            ClearProfitMissedOutOnModel();
             var inventory = db.Inventories.Find(id);
             var oldInvId = FindLastYearThisMonth(inventory);
             ProfitMissedOutOnViewModel.ThisInventoryProducts = db.InventoryProducts.Where(i => i.InventoryId == inventory.Id).ToList();
             ProfitMissedOutOnViewModel.OldInventoryProducts = db.InventoryProducts.Where(o => o.InventoryId == oldInvId).ToList();
-            //for(int i = 0, j = 0; i < oldInvProducts.Count; i++, j++)
-            //{
-            //    if(oldInvProducts[i].ProductId == thisInvProducts[i].ProductId)
-            //    {
-            //        ProfitMissedOutOnViewModel.InventoryProducts.Add(oldInvProducts[i].);
-            //    }
-            //}
-            return RedirectToAction("DisplayIfProfitWasLostOnProduct", "Chart", inventory);
+            return RedirectToAction("DisplayIfProfitWasLostOnProduct", "Chart");
+        }
+        public void ClearProfitMissedOutOnModel()
+        {
+            ProfitMissedOutOnViewModel.OldInventoryProducts = null;
+            ProfitMissedOutOnViewModel.ThisInventoryProducts = null;
         }
 
 

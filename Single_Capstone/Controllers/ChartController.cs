@@ -14,31 +14,6 @@ namespace Single_Capstone.Controllers
     public class ChartController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
-        // GET: Chart
-        //public ActionResult Index()
-        //{
-        //    var userid = User.Identity.GetUserId();
-        //    var business = db.Businesses.Where(b => b.ApplicationId == userid).FirstOrDefault();
-        //    var inventory = db.Inventories.Where(i => i.BusinessId == business.Id).ToList();
-        //    List<DataPoint> dataPoints = new List<DataPoint>{ };
-        //    int k = 0;
-        //    //int j = 1;
-        //    for (k = 0/*, j = 1*/; k < inventory.Count;/* && j < inventory.Count; */k++/*, j++*/)
-        //    {
-        //        dataPoints.Add(new DataPoint(inventory[k].TotalInventoryWorth, inventory[k].GetDate));
-        //    }
-        //    //new DataPoint(10, 22),
-        //    //    new DataPoint(20, 36),
-        //    //    new DataPoint(30, 42),
-        //    //    new DataPoint(40, 51),
-        //    //    new DataPoint(50, 46),
-        //    //var today = DateTime.Today;
-
-        //    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-
-        //    return View();
-        //}
-
         public ActionResult ProfitCharts()//Shows your monthly profit chart.
         {
             var userId = User.Identity.GetUserId();
@@ -137,9 +112,23 @@ namespace Single_Capstone.Controllers
             return View("HistoricalAmountAndPriceChart");
         }
 
-        public ActionResult DisplayIfProfitWasLostOnProduct(Inventory inventory)
+        public ActionResult DisplayIfProfitWasLostOnProduct()//Shows if profit was lost out on or not
         {
-
+            List<DataPoint> dataPoints = new List<DataPoint> { };
+            for (int i = 0, j = 0; i < ProfitMissedOutOnViewModel.OldInventoryProducts.Count; i++, j++)
+            {
+                if(ProfitMissedOutOnViewModel.OldInventoryProducts[i].ProductId == ProfitMissedOutOnViewModel.ThisInventoryProducts[i].ProductId)
+                {
+                    if (ProfitMissedOutOnViewModel.OldInventoryProducts[i].AmountSold > ProfitMissedOutOnViewModel.ThisInventoryProducts[i].AmountSold && ProfitMissedOutOnViewModel.ThisInventoryProducts[i].Units == 0)
+                    {
+                        var profit = ((ProfitMissedOutOnViewModel.OldInventoryProducts[i].AmountSold - ProfitMissedOutOnViewModel.ThisInventoryProducts[i].AmountSold) * ProfitMissedOutOnViewModel.ThisInventoryProducts[i].ProfitToBeMadePerUnit);
+                        dataPoints.Add(new DataPoint(profit, ProfitMissedOutOnViewModel.ThisInventoryProducts[i].ProductName));
+                    }
+                }
+            }
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+            ViewBag.Title = JsonConvert.SerializeObject("Profit Lost Out On");
+            ViewBag.Units = JsonConvert.SerializeObject("Money Lost Out On");
             return View();
         }
 
