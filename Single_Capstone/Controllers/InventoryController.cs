@@ -14,7 +14,7 @@ namespace Single_Capstone.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
         // GET: Inventory
-        public ActionResult Index()
+        public ActionResult Index()//Shows all inventorys in order from earliest to newest of that business owner
         {
             var userId = User.Identity.GetUserId();
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
@@ -22,7 +22,7 @@ namespace Single_Capstone.Controllers
             return View(inventory);
         }
 
-        public ActionResult CalcInventoryValue(InventoryProducts inventoryProducts)
+        public ActionResult CalcInventoryValue(InventoryProducts inventoryProducts)//Running total calculation
         {
             var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
             inventory.TotalInventoryWorth += inventoryProducts.TotalValueOfProducts;
@@ -92,7 +92,7 @@ namespace Single_Capstone.Controllers
             return RedirectToAction("SendRecommendations", "SMS");
         }
 
-        public int FindLastYearThisMonth(Inventory inventory)
+        public int FindLastYearThisMonth(Inventory inventory)//ProfitMissedOutOn calls to find the inventory id of last year this months inventory and returns it
         {
             var myDate = DateTime.Parse(inventory.GetDate);
             var myYear = myDate.AddYears(-1);
@@ -108,7 +108,7 @@ namespace Single_Capstone.Controllers
             return 0;
         }
 
-        public ActionResult ProfitMissedOutOn(int id)//start here tomorrow
+        public ActionResult ProfitMissedOutOn(int id)//Assigns the list of inventory products to the profitmissedoutonviewmodel and then redirects to charts controller
         {
             ClearProfitMissedOutOnModel();
             var inventory = db.Inventories.Find(id);
@@ -117,7 +117,7 @@ namespace Single_Capstone.Controllers
             ProfitMissedOutOnViewModel.OldInventoryProducts = db.InventoryProducts.Where(o => o.InventoryId == oldInvId).ToList();
             return RedirectToAction("DisplayIfProfitWasLostOnProduct", "Chart");
         }
-        public void ClearProfitMissedOutOnModel()
+        public void ClearProfitMissedOutOnModel()//Clears the model to be used again
         {
             ProfitMissedOutOnViewModel.OldInventoryProducts = null;
             ProfitMissedOutOnViewModel.ThisInventoryProducts = null;

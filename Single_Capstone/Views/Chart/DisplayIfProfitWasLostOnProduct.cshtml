@@ -14,8 +14,6 @@
       legend: {
             cursor: "pointer",
             itemclick: function (e) {
-                //console.log("legend click: " + e.dataPointIndex);
-                //console.log(e);
                 if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
                     e.dataSeries.visible = false;
                 } else {
@@ -46,4 +44,4 @@
     </div>
 </body>
 </html>
-<a href="@Url.Action("Index", "Inventory")" class="btn btn-default btn-lg btn-block">Back</a>
+<a href="@Url.Action("Index", "Inventory")" class="btn btn-info btn-lg btn-block">Back</a>

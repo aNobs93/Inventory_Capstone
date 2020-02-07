@@ -26,10 +26,10 @@
        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-info" />
+                <a href="@Url.Action("SelectedInventoryDetails", "Inventory", new { id = ViewBag.Back }, null)" class="btn btn-info">Back</a>
             </div>
         </div>
     </div>
 }
 
-<a href="@Url.Action("SelectedInventoryDetails", "Inventory", new { id = ViewBag.Back }, null)" class="btn btn-default btn-lg btn-block">Back</a>

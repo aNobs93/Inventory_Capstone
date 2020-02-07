@@ -113,22 +113,37 @@ namespace Single_Capstone.Controllers
 
         public InventoryProducts FindGMROI(InventoryProducts inventoryProducts)
         {
-            var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();            
-           double totalProfit = (product.PricePerUnitSelling * inventoryProducts.Units);
-            inventoryProducts.GMROI = Math.Round(totalProfit / inventoryProducts.TotalValueOfProducts, 2);
-            return inventoryProducts;
+            try
+            {
+                var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();
+                double totalProfit = (product.PricePerUnitSelling * inventoryProducts.Units);
+                inventoryProducts.GMROI = Math.Round(totalProfit / inventoryProducts.TotalValueOfProducts, 2);
+                return inventoryProducts;
+            }
+            catch
+            {
+                return inventoryProducts;
+            }
+
         }
 
         public InventoryProducts FindParLevel(InventoryProducts inventoryProducts)
         {
-            var inventory = db.Inventories.Find(inventoryProducts.InventoryId);
-            var oldInventory = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.LastInventoryId).ToList();
-            var lastInventoryProduct = oldInventory.Where(r => r.ProductId == inventoryProducts.ProductId).First();
-            var usage = (lastInventoryProduct.Units - inventoryProducts.Units);
-            var safetyNet = db.Products.Where(s => s.Id == lastInventoryProduct.ProductId).FirstOrDefault();
-            var result = (usage * safetyNet.ProductSafetyNet);
-            inventoryProducts.ParLevel = (usage + result)
-;            return inventoryProducts;
+            try
+            {
+                var inventory = db.Inventories.Find(inventoryProducts.InventoryId);
+                var oldInventory = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.LastInventoryId).ToList();
+                var lastInventoryProduct = oldInventory.Where(r => r.ProductId == inventoryProducts.ProductId).First();
+                var usage = (lastInventoryProduct.Units - inventoryProducts.Units);
+                var safetyNet = db.Products.Where(s => s.Id == lastInventoryProduct.ProductId).FirstOrDefault();
+                var result = (usage * safetyNet.ProductSafetyNet);
+                inventoryProducts.ParLevel = (usage + result);
+                return inventoryProducts;
+            }
+            catch
+            {
+                return inventoryProducts;
+            }
         }
 
         public InventoryProducts FindHowMuchSold(InventoryProducts inventoryProducts)

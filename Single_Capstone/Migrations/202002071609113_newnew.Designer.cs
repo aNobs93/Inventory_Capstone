@@ -13,7 +13,7 @@ namespace Single_Capstone.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202002062056177_newnew"; }
+            get { return "202002071609113_newnew"; }
         }
         
         string IMigrationMetadata.Source

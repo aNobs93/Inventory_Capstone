@@ -44,6 +44,7 @@ namespace Single_Capstone.Models
         public double AmountSold { get; set; }
         public double GMROI { get; set; }
 
+        [Display(Name ="Par Level")]
         public double ParLevel { get; set; }
     }
 }
