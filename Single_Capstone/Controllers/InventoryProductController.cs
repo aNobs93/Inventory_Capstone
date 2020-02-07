@@ -117,6 +117,11 @@ namespace Single_Capstone.Controllers
             {
                 var product = db.Products.Where(p => p.Id == inventoryProducts.ProductId).FirstOrDefault();
                 double totalProfit = (product.PricePerUnitSelling * inventoryProducts.Units);
+                if(totalProfit == 0)
+                {
+                    inventoryProducts.GMROI = 0;
+                    return inventoryProducts;
+                }
                 inventoryProducts.GMROI = Math.Round(totalProfit / inventoryProducts.TotalValueOfProducts, 2);
                 return inventoryProducts;
             }

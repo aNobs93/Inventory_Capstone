@@ -27,7 +27,14 @@ namespace Single_Capstone.Controllers
             var inventory = db.Inventories.Where(i => i.Id == inventoryProducts.InventoryId).FirstOrDefault();
             inventory.TotalInventoryWorth += inventoryProducts.TotalValueOfProducts;
             inventory.ProfitMargin += (inventoryProducts.ProfitToBeMadePerUnit * inventoryProducts.Units);
-            inventory.GMROI = Math.Round(inventory.ProfitMargin / inventory.TotalInventoryWorth, 2);
+            if(inventory.ProfitMargin == 0 && inventory.TotalInventoryWorth == 0)
+            {
+                inventory.GMROI = 0;
+            }
+            else if(inventory.ProfitMargin != 0 || inventory.TotalInventoryWorth != 0)
+            {
+                inventory.GMROI = Math.Round(inventory.ProfitMargin / inventory.TotalInventoryWorth, 2);
+            }
             db.Entry(inventory).State = EntityState.Modified;
             db.SaveChanges();
             if (inventoryProducts.Units < inventoryProducts.ParLevel)

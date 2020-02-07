@@ -3,9 +3,6 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
 <div>
     <h4>Business</h4>
     <hr />
@@ -86,6 +83,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("Edit", new {id=Model.Id})" class="btn btn-info">Edit</a>
 </p>

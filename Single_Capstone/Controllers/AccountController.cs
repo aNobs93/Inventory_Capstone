@@ -90,7 +90,7 @@ namespace Single_Capstone.Controllers
                             return RedirectToAction("Create", "Business");
                         }
 
-                        return RedirectToAction("Index", "Business");
+                        return RedirectToAction("Index", "Inventory");
                     }
 
                     return RedirectToLocal(returnUrl);

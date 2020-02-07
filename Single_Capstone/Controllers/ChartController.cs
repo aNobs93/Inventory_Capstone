@@ -20,12 +20,18 @@ namespace Single_Capstone.Controllers
             var business = db.Businesses.Where(b => b.ApplicationId == userId).FirstOrDefault();
             var inventories = db.Inventories.Where(i => i.BusinessId == business.Id).ToList();
             List<DataPoint> dataPoints = new List<DataPoint> { };
-            for (int i = 0, j = 1; i < inventories.Count; i++, j++)
+            for (int i = 0; i < inventories.Count; i++)
             {
                 try
                 {
-                    double profit = (inventories[i].ProfitMargin - inventories[j].ProfitMargin);
-                    dataPoints.Add(new DataPoint(profit, inventories[j].GetDate));
+                    var id = inventories[i].Id;
+                    var invetoryProduct = db.InventoryProducts.Where(ip => ip.InventoryId == id).ToList();
+                    for (int k = 0; k < invetoryProduct.Count; k++)
+                    {
+                        ProfitMissedOutOnViewModel.Profit += invetoryProduct[k].AmountSold * invetoryProduct[k].ProfitToBeMadePerUnit;
+                    }
+                    dataPoints.Add(new DataPoint(ProfitMissedOutOnViewModel.Profit, inventories[i].GetDate));
+                    ClearProfitInViewModel();
                 }
                 catch
                 {
@@ -37,6 +43,11 @@ namespace Single_Capstone.Controllers
             ViewBag.Title = JsonConvert.SerializeObject("Monthly Profit");
             ViewBag.Key = false;
             return View("PastHistoricalDataForSpecificProduct");
+        }
+
+        public void ClearProfitInViewModel()
+        {
+            ProfitMissedOutOnViewModel.Profit = 0;
         }
 
         public ActionResult PastHistoricalDataForSpecificProduct(InventoryProducts inventoryProducts)//Shows the trends of selected product
@@ -84,7 +95,7 @@ namespace Single_Capstone.Controllers
             ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
             ViewBag.Units = JsonConvert.SerializeObject("Units");
             ViewBag.Value = JsonConvert.SerializeObject("Total Cost Inventory Value");
-            ViewBag.Title = JsonConvert.SerializeObject("Inventory of " + myMonthString);
+            ViewBag.Title = JsonConvert.SerializeObject("Inventory of " + myMonthString + " " + myDate.Year);
             return View();
         }
 
@@ -92,7 +103,10 @@ namespace Single_Capstone.Controllers
         {
             var inventoryProducts = db.InventoryProducts.Where(ip => ip.InventoryId == inventory.Id).ToList();
             List<DataPoint> dataPoints = new List<DataPoint> { };
-
+            var inventorys = db.Inventories.Where(i => i.Id == inventory.Id).FirstOrDefault();
+            var myDate = DateTime.Parse(inventorys.GetDate);
+            var myMonthInt = myDate.Month;
+            var myMonthString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(myMonthInt);
             for (int i = 0; i < inventoryProducts.Count; i++)
             {
                 dataPoints.Add(new DataPoint(inventoryProducts[i].AmountSold, inventoryProducts[i].ProductName));
@@ -108,7 +122,7 @@ namespace Single_Capstone.Controllers
             ViewBag.DataPoints2 = JsonConvert.SerializeObject(dataPoints2);
             ViewBag.Units = JsonConvert.SerializeObject("Amount Sold");
             ViewBag.Value = JsonConvert.SerializeObject("Total Profit Made");
-            ViewBag.Title = JsonConvert.SerializeObject("What Sold And Profit Made");
+            ViewBag.Title = JsonConvert.SerializeObject("Inventory of " + myMonthString + " " + myDate.Year);
             return View("HistoricalAmountAndPriceChart");
         }
 
@@ -128,7 +142,6 @@ namespace Single_Capstone.Controllers
             }
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             ViewBag.Title = JsonConvert.SerializeObject("Profit Lost Out On");
-            ViewBag.Units = JsonConvert.SerializeObject("Money Lost Out On");
             return View();
         }
 

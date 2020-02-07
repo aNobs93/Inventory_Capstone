@@ -11,6 +11,8 @@ namespace Single_Capstone.Models
 
         public static List<InventoryProducts> OldInventoryProducts { get; set; }
 
+        public static double Profit { get; set; }
+
 
     }
 }

@@ -11,21 +11,7 @@
         text: @Html.Raw(ViewBag.Title),
 
       },
-      legend: {
-            cursor: "pointer",
-            itemclick: function (e) {
-                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
-                }
-
-                e.chart.render();
-            }
-        },
       data: [{
-        name:@Html.Raw(ViewBag.Units),
-        showInLegend: true,
         type: "column",
         dataPoints:
             @Html.Raw(ViewBag.DataPoints),
